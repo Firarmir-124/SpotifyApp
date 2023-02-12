@@ -10,7 +10,7 @@ const AlbumSchema = new Schema({
   },
   executor: {
     type: Schema.Types.ObjectId,
-    ref: 'Artist',
+    ref: 'artists',
     required: true,
     validate: {
       validator: async (value: Types.ObjectId) => Artist.findById(value),
