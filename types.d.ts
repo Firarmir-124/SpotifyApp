@@ -1,17 +1,17 @@
-export interface Artist {
+export interface ArtistMutation {
   title: string;
   photo: string | null;
   information: string | null;
 }
 
-export interface Album {
+export interface AlbumMutation {
   title: string;
   executor: string;
   date: string;
   image: string | null;
 }
 
-export interface Track {
+export interface TrackMutation {
   title: string;
   album: string;
   duration: string;
