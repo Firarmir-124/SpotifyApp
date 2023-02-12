@@ -1,5 +1,8 @@
 import express from "express";
 import Album from "../models/Album";
+import {AlbumMutation} from "../types";
+import mongoose from "mongoose";
+import {imagesUpload} from "../multer";
 
 const albumsRouter = express.Router();
 
@@ -29,8 +32,26 @@ albumsRouter.get('/:id', async (req, res) => {
   }
 });
 
-albumsRouter.post('/',async (req, res, next) => {
-  res.send('post');
+albumsRouter.post('/',imagesUpload.single('image'), async (req, res, next) => {
+  const newAlbum:AlbumMutation = {
+    title: req.body.title,
+    executor: req.body.executor,
+    date: req.body.date,
+    image: req.file ? req.file.filename : null
+  }
+
+  const album = new Album(newAlbum);
+
+  try {
+    await album.save();
+    return res.send(album);
+  }catch (e) {
+    if (e instanceof mongoose.Error.ValidationError) {
+      return  res.status(400).send(e);
+    } else {
+      return  next(e)
+    }
+  }
 });
 
 export default albumsRouter;
