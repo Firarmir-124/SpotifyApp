@@ -1,14 +1,14 @@
 export interface Artist {
   title: string;
-  photo: string;
-  information: string;
+  photo: string | null;
+  information: string | null;
 }
 
 export interface Album {
   title: string;
   executor: string;
   date: string;
-  image: string;
+  image: string | null;
 }
 
 export interface Track {
