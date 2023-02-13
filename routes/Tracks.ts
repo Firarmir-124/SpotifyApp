@@ -3,20 +3,22 @@ import Track from "../models/Track";
 import {TrackMutation} from "../types";
 import mongoose from "mongoose";
 
+
 const tracksRouter = express.Router();
 
 tracksRouter.get('/', async (req, res) => {
   const query = req.query.album as string;
 
   try {
-    const tracks = await Track.find().populate('album');
+    const tracks = await Track.find();
 
     if (req.query.album !== undefined) {
-      const tracksId = await Track.find({album: query}).populate('album');
+      const tracksId = await Track.find({album: query});
       return res.send(tracksId);
     } else {
       return res.send(tracks);
     }
+
   }catch (e) {
     return res.sendStatus(500)
   }
