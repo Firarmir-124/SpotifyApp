@@ -10,7 +10,7 @@ albumsRouter.get('/', async (req, res) => {
   const query = req.query.artist as string;
 
   try {
-    const albums = await Album.find().populate('executor');
+    const albums = await Album.find();
 
     if (req.query.artist !== undefined) {
       const albums = await Album.find({executor: query});
