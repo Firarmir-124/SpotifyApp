@@ -10,7 +10,7 @@ const TrackSchema = new Schema({
   },
   album: {
     type: Schema.Types.ObjectId,
-    ref: 'albums',
+    ref: 'Album',
     validate: {
       validator: async (value: Types.ObjectId) => Album.findById(value),
       message: 'Artist does not exist'
@@ -22,6 +22,6 @@ const TrackSchema = new Schema({
   }
 });
 
-const Track = mongoose.model('tracks', TrackSchema);
+const Track = mongoose.model('Track', TrackSchema);
 
 export default Track

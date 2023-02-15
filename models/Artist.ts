@@ -11,6 +11,6 @@ const ArtiSchema = new Schema({
   information: String,
 });
 
-const Artist = mongoose.model('artists', ArtiSchema);
+const Artist = mongoose.model('Artist', ArtiSchema);
 
 export default Artist;

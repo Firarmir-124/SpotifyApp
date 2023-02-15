@@ -10,7 +10,7 @@ const AlbumSchema = new Schema({
   },
   executor: {
     type: Schema.Types.ObjectId,
-    ref: 'artists',
+    ref: 'Artist',
     required: true,
     validate: {
       validator: async (value: Types.ObjectId) => Artist.findById(value),
@@ -24,6 +24,6 @@ const AlbumSchema = new Schema({
   image: String
 });
 
-const Album = mongoose.model('albums', AlbumSchema);
+const Album = mongoose.model('Album', AlbumSchema);
 
 export default Album
