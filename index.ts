@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import artistRouter from "./routes/artist";
 import albumsRouter from "./routes/albums";
 import tracksRouter from "./routes/Tracks";
+import usersRouter from "./routes/users";
 
 const app = express();
 const port = 8000;
@@ -12,6 +13,7 @@ app.use(express.static('public'));
 app.use('/artists', artistRouter);
 app.use('/albums', albumsRouter);
 app.use('/tracks', tracksRouter);
+app.use('/users', usersRouter);
 
 const run = async () => {
   mongoose.set('strictQuery', false);
