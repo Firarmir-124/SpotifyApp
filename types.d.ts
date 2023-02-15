@@ -22,3 +22,9 @@ export interface IUser {
   password: string;
   token: string
 }
+
+export interface TrackHistory {
+  user: string;
+  track: string;
+  datetime: string;
+}
