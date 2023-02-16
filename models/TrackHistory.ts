@@ -21,7 +21,10 @@ const TrackHistorySchema = new Schema({
       message: 'Track does not exist'
     }
   },
-  datetime: Date
+  datetime: {
+    type: String,
+    required: true,
+  }
 });
 
 const TrackHistory = model('TrackHistory', TrackHistorySchema);
