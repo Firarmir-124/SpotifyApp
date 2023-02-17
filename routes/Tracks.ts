@@ -20,7 +20,7 @@ tracksRouter.get('/', async (req, res) => {
     }
 
   }catch (e) {
-    return res.sendStatus(500)
+    return res.sendStatus(500);
   }
 });
 
@@ -29,7 +29,7 @@ tracksRouter.post('/', async (req, res, next) => {
     title: req.body.title,
     album: req.body.album,
     duration: req.body.duration,
-  }
+  };
 
   const track = new Track(newTrack);
 
@@ -38,9 +38,9 @@ tracksRouter.post('/', async (req, res, next) => {
     return res.send(track);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
-      return res.status(400).send(e)
+      return res.status(400).send(e);
     } else {
-      return next(e)
+      return next(e);
     }
   }
 });

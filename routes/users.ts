@@ -16,9 +16,9 @@ usersRouter.post('/', async (req, res, next) => {
     return res.send(user);
   } catch (e) {
     if (e instanceof Error.ValidationError) {
-      return res.status(400).send(e)
+      return res.status(400).send(e);
     } else {
-      return next(e)
+      return next(e);
     }
   }
 });
@@ -39,7 +39,7 @@ usersRouter.post('/sessions', async (req, res) => {
   user.generateToken();
   await user.save();
 
-  return res.send({message: 'Username and password correct !', user})
+  return res.send({message: 'Username and password correct !', user});
 })
 
 export default usersRouter;

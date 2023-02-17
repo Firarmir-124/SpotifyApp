@@ -22,7 +22,7 @@ const run = async () => {
   await mongoose.connect('mongodb://localhost/spotify');
 
   app.listen(port, () => {
-    console.log('Server ok: ', port)
+    console.log('Server ok: ', port);
   });
 
   process.on('exit', () => {

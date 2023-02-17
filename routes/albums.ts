@@ -19,16 +19,16 @@ albumsRouter.get('/', async (req, res) => {
       return res.send(albums);
     }
   }catch {
-    return res.sendStatus(500)
+    return res.sendStatus(500);
   }
 });
 
 albumsRouter.get('/:id', async (req, res) => {
   try {
     const album = await Album.findById(req.params.id).populate('executor');
-    return res.send(album)
+    return res.send(album);
   }catch {
-    return res.send(500)
+    return res.send(500);
   }
 });
 
@@ -38,7 +38,7 @@ albumsRouter.post('/',imagesUpload.single('image'), async (req, res, next) => {
     executor: req.body.executor,
     date: req.body.date,
     image: req.file ? req.file.filename : null
-  }
+  };
 
   const album = new Album(newAlbum);
 
@@ -49,7 +49,7 @@ albumsRouter.post('/',imagesUpload.single('image'), async (req, res, next) => {
     if (e instanceof mongoose.Error.ValidationError) {
       return  res.status(400).send(e);
     } else {
-      return  next(e)
+      return next(e);
     }
   }
 });

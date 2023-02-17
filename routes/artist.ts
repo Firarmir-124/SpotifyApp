@@ -9,9 +9,9 @@ const artistRouter = express.Router();
 artistRouter.get('/', async (req, res) => {
   try {
     const artists = await Artist.find();
-    return res.send(artists)
+    return res.send(artists);
   }catch {
-    return res.sendStatus(500)
+    return res.sendStatus(500);
   }
 });
 
@@ -20,18 +20,18 @@ artistRouter.post('/', imagesUpload.single('photo'), async (req, res, next) => {
     title: req.body.title,
     photo: req.file ? req.file.filename : null,
     information: req.body.information,
-  }
+  };
 
   const artist = new Artist(newArtist);
 
   try {
     await artist.save();
-    return res.send(artist)
+    return res.send(artist);
   }catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
-      return res.status(400).send(e)
+      return res.status(400).send(e);
     } else {
-      return next(e)
+      return next(e);
     }
   }
 });

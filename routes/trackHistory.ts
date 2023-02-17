@@ -9,20 +9,20 @@ trackHistoryRouter.post('/', async (req, res, next) => {
   const token = req.get('Authorization');
 
   if (!token) {
-    return res.status(401).send({error: 'Unauthorized'})
+    return res.status(401).send({error: 'Unauthorized'});
   }
 
   const user = await User.findOne({token});
 
   if (!user) {
-    return res.status(401).send({error: 'wrong token'})
+    return res.status(401).send({error: 'wrong token'});
   }
 
   const newHistory = {
     user,
     track: req.body.track,
     datetime: (new Date()).toISOString(),
-  }
+  };
 
   const history = new TrackHistory(newHistory);
 
