@@ -24,7 +24,7 @@ export interface IUser {
 }
 
 export interface TrackHistory {
-  user: string;
-  track: string;
+  user: IUser._id;
+  track: TrackMutation._id;
   datetime: string;
 }
