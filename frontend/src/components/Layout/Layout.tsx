@@ -11,7 +11,7 @@ const Layout:React.FC<Props> = ({children}) => {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component={Link} to='/' sx={{ flexGrow: 1 }}>
             Spotify
           </Typography>
           <Button component={Link} to='/register' color="inherit">Sign up</Button>
