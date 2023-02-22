@@ -1,8 +1,9 @@
 import {configureStore} from "@reduxjs/toolkit";
+import {executorReducer} from "../store/executorSlice";
 
 export const store = configureStore({
   reducer: {
-
+    executor: executorReducer,
   }
 });
 
