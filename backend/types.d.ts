@@ -1,3 +1,5 @@
+import mongoose, {Types, ObjectId} from "mongoose";
+
 export interface ArtistMutation {
   title: string;
   photo: string | null;
@@ -28,4 +30,15 @@ export interface TrackHistory {
   user: IUser._id;
   track: TrackMutation._id;
   datetime: string;
+}
+
+export interface newAlbums {
+  _id: mongoose.Types.ObjectId;
+  album: {
+    title: string;
+    executor: mongoose.Types.ObjectId;
+    date: number;
+    image: string | null;
+  };
+  counter: number
 }
