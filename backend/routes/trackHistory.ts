@@ -19,7 +19,7 @@ trackHistoryRouter.post('/', async (req, res, next) => {
   }
 
   const newHistory = {
-    user,
+    user: user._id,
     track: req.body.track,
     datetime: (new Date()).toISOString(),
   };
