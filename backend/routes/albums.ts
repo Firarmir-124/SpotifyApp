@@ -1,8 +1,9 @@
 import express from "express";
 import Album from "../models/Album";
-import {AlbumMutation} from "../types";
+import {AlbumMutation, newAlbums} from "../types";
 import mongoose from "mongoose";
 import {imagesUpload} from "../multer";
+import Track from "../models/Track";
 
 const albumsRouter = express.Router();
 
@@ -11,12 +12,31 @@ albumsRouter.get('/', async (req, res) => {
 
   try {
     const albums = await Album.find();
+    const tracks = await Track.find();
+    const newAlbums:newAlbums[] = [];
+
+    albums.forEach((item) => {
+      const filter = tracks.filter((id) => id.album && id.album.toString() === item.id);
+
+      const obj:newAlbums = {
+        _id: item._id,
+        album: {
+          title: item.title,
+          executor: item.executor,
+          date: item.date,
+          image: item.image || null,
+        },
+        counter: filter.length
+      }
+
+      newAlbums.push(obj);
+    });
 
     if (req.query.artist !== undefined) {
       const albums = await Album.find({executor: query});
       return res.send(albums);
     } else {
-      return res.send(albums);
+      return res.send(newAlbums);
     }
   }catch {
     return res.sendStatus(500);
@@ -26,6 +46,7 @@ albumsRouter.get('/', async (req, res) => {
 albumsRouter.get('/:id', async (req, res) => {
   try {
     const album = await Album.findById(req.params.id).populate('executor');
+
     return res.send(album);
   }catch {
     return res.send(500);
