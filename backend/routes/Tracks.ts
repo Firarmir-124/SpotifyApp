@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 
 
 const tracksRouter = express.Router();
+let counter = 1;
 
 tracksRouter.get('/', async (req, res) => {
   const query = req.query.album as string;
@@ -29,6 +30,7 @@ tracksRouter.post('/', async (req, res, next) => {
     title: req.body.title,
     album: req.body.album,
     duration: req.body.duration,
+    trackNumber: counter++,
   };
 
   const track = new Track(newTrack);

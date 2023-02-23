@@ -7,7 +7,7 @@ export interface ArtistMutation {
 export interface AlbumMutation {
   title: string;
   executor: string;
-  date: string;
+  date: number;
   image: string | null;
 }
 
@@ -15,6 +15,7 @@ export interface TrackMutation {
   title: string;
   album: string;
   duration: string;
+  trackNumber: number;
 }
 
 export interface IUser {
