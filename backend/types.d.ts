@@ -1,4 +1,4 @@
-import mongoose, {Types, ObjectId} from "mongoose";
+import mongoose from "mongoose";
 
 export interface ArtistMutation {
   title: string;
@@ -41,4 +41,20 @@ export interface newAlbums {
     image: string | null;
   };
   counter: number
+}
+
+export interface AlbumType {
+  _id: mongoose.Types.ObjectId
+  title: string,
+  date: number,
+  executor: mongoose.Types.ObjectId,
+  image?: string | undefined,
+}
+
+export interface TrackType {
+  _id: mongoose.Types.ObjectId;
+  title: string;
+  album?: mongoose.Types.ObjectId | undefined;
+  duration: string;
+  trackNumber: number;
 }
