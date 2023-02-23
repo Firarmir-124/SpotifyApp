@@ -21,12 +21,12 @@ const run = async () => {
   const [artist1, artist2] = await Artist.create(
     {
       title: 'Руки Вверх!',
-      photo: 'fixtures/imagesArtist/artist1.jpeg',
+      photo: 'fixtures/imagesArtist/artist1.jpg',
       information: '«Руки Вверх!» — российская музыкальная поп-группа. До августа 2006 года состояла из Сергея Жукова и Алексея Потехина',
     },
     {
       title: 'JONY',
-      photo: 'fixtures/imagesArtist/artist2.jpeg',
+      photo: 'fixtures/imagesArtist/artist2.jpg',
       information: 'Джахид Афраил оглы Гусейнли известный как JONY — певец и автор песен. Победитель второго сезона шоу «Маска» на НТВ',
     }
   );
