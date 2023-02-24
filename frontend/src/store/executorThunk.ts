@@ -27,7 +27,7 @@ export const fetchArtist = createAsyncThunk<Artists | null, string>(
 export const fetchAlbums = createAsyncThunk<Albums[], string>(
   'albums/fetch',
   async (id) => {
-    const response = await axiosApi.get('/albums?artist' + id);
+    const response = await axiosApi.get('/albums?artist=' + id);
     return response.data;
   }
 );
