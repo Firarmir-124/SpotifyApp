@@ -17,8 +17,15 @@ export interface TrackMutation {
   duration: string;
 }
 
-export interface Albums extends AlbumMutation{
+export interface Albums {
   _id: string;
+  album: AlbumMutation
+  counter: number
+}
+
+export interface Album extends AlbumMutation{
+  _id: string;
+  executor: AlbumMutation
 }
 
 export interface Artists extends ArtistMutation{
