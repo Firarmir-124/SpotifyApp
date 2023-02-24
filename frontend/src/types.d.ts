@@ -15,6 +15,7 @@ export interface TrackMutation {
   title: string;
   album: string;
   duration: string;
+  trackNumber: number;
 }
 
 export interface Albums {
