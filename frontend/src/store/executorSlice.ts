@@ -1,6 +1,6 @@
-import {Album, Albums, Artists} from "../types";
+import {Album, Albums, Artists, Tracks} from "../types";
 import {createSlice} from "@reduxjs/toolkit";
-import {fetchAlbum, fetchAlbums, fetchArtist, fetchExecutor} from "./executorThunk";
+import {fetchAlbum, fetchAlbums, fetchArtist, fetchExecutor, fetchTracks} from "./executorThunk";
 import {RootState} from "../app/store";
 
 interface executorType {
@@ -8,6 +8,8 @@ interface executorType {
   artist: Artists | null;
   albums: Albums[];
   album: Album | null;
+  tracks: Tracks[];
+  tracksLoading: boolean;
   albumOneLoading: boolean;
   albumLoading: boolean;
   executorLoading: boolean;
@@ -19,6 +21,8 @@ const initialState:executorType = {
   artist: null,
   albums: [],
   album: null,
+  tracks: [],
+  tracksLoading: false,
   albumOneLoading: false,
   albumLoading: false,
   executorLoading: false,
@@ -73,6 +77,17 @@ export const executorSlice = createSlice({
     builder.addCase(fetchAlbum.rejected, (state) => {
       state.albumOneLoading = false;
     });
+
+    builder.addCase(fetchTracks.pending, (state) => {
+      state.tracksLoading = true;
+    });
+    builder.addCase(fetchTracks.fulfilled, (state, {payload: tracks}) => {
+      state.tracksLoading = false;
+      state.tracks = tracks;
+    });
+    builder.addCase(fetchTracks.rejected, (state) => {
+      state.tracksLoading = false;
+    });
   }
 });
 
@@ -85,3 +100,5 @@ export const selectAlbums = (state: RootState) => state.executor.albums;
 export const selectAlbumLoading = (state: RootState) => state.executor.albumLoading;
 export const selectAlbum = (state: RootState) => state.executor.album;
 export const selectAlbumOneLoading = (state: RootState) => state.executor.albumOneLoading;
+export const selectTracks = (state: RootState) => state.executor.tracks;
+export const selectTracksLoading = (state: RootState) => state.executor.tracksLoading;
