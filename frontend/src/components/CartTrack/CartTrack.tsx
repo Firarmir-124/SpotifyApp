@@ -17,7 +17,7 @@ const CartTrack:React.FC<Props> = ({track}) => {
             <Typography variant="subtitle1" color="text.secondary" component="div">
               {track.duration}
             </Typography>
-            <Chip size='small' label="1" color="primary" />
+            <Chip size='small' label={track.trackNumber} color="primary" />
           </CardContent>
         </Box>
         <CardMedia
