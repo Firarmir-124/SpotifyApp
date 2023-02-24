@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Layout from "../../components/Layout/Layout";
-import {Chip, CircularProgress, Container, Grid, LinearProgress, Paper, Typography} from "@mui/material";
+import {Chip, CircularProgress, Container, Grid, Paper} from "@mui/material";
 import CartExecutor from "../../components/CartExecutor/CartExecutor";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectExecutorLoading, selectExecutors} from "../../store/executorSlice";

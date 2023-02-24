@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import Layout from "../../components/Layout/Layout";
-import {Alert, Box, Chip, CircularProgress, Container, Grid, Paper, Typography} from "@mui/material";
+import {Alert, Chip, CircularProgress, Container, Grid, Paper} from "@mui/material";
 import {useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectAlbumLoading, selectAlbums, selectArtist, selectArtistLoading} from "../../store/executorSlice";
