@@ -1,7 +1,6 @@
 import React from 'react';
 import Layout from "../../components/Layout/Layout";
-import {Card, CardContent, CardMedia, Container, Grid, Typography} from "@mui/material";
-import CartAlbum from "../../components/CartAlbum/CartAlbum";
+import {Container, Grid, Typography} from "@mui/material";
 
 const Albums = () => {
   return (
@@ -12,9 +11,7 @@ const Albums = () => {
         </Typography>
 
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-          {Array.from(Array(10)).map((_, index) => (
-            <CartAlbum/>
-          ))}
+          Альбом
         </Grid>
       </Container>
     </Layout>
