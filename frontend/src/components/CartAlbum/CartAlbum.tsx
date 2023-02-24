@@ -13,7 +13,7 @@ interface Props {
 const CartAlbum:React.FC<Props> = ({album}) => {
   let image = noImage;
 
-  if (image) {
+  if (album.album.image) {
     image = config + '/' + album.album.image;
   }
 
