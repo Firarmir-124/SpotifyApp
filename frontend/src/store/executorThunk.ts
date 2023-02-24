@@ -9,3 +9,17 @@ export const fetchExecutor = createAsyncThunk<Artists[]>(
     return response.data;
   }
 );
+
+export const fetchArtist = createAsyncThunk<Artists | null, string>(
+  'artist/fetch',
+  async (id) => {
+    const response = await axiosApi.get<Artists | null>('/artists/' + id);
+    const jsn = response.data;
+
+    if (jsn) {
+      throw new Error('not found');
+    }
+
+    return jsn
+  }
+);
