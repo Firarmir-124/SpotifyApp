@@ -19,7 +19,7 @@ const CartAlbum:React.FC<Props> = ({album}) => {
   return (
     <Grid item xs={2} sm={4} md={4}>
       <Card variant="outlined" sx={{ maxWidth: 400 }}>
-        <Link to={'/albums/' + 'id'}>
+        <Link to={'/albums/' + album._id}>
           <CardMedia
             sx={{ height: 200 }}
             image={image}
