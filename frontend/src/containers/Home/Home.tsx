@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Layout from "../../components/Layout/Layout";
-import {Chip, CircularProgress, Container, Grid, Paper} from "@mui/material";
+import {Alert, Chip, CircularProgress, Container, Grid, Paper} from "@mui/material";
 import CartExecutor from "../../components/CartExecutor/CartExecutor";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectExecutorLoading, selectExecutors} from "../../store/executorSlice";
@@ -29,10 +29,12 @@ const Home = () => {
           <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
             {
               !loading ? (
-                executors.map((executor) => (
-                  <CartExecutor key={executor._id} executor={executor}/>
-                ))
-              ) : <CircularProgress sx={{m: 5}}/>
+                executors.length !== 0 ? (
+                  executors.map((executor) => (
+                    <CartExecutor key={executor._id} executor={executor}/>
+                  ))
+                  ) : <Grid item ><Alert severity="info">Исполнителей нет !</Alert></Grid>
+              ) : <Grid item> <CircularProgress/> </Grid>
             }
           </Grid>
         </Paper>
