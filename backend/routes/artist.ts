@@ -15,6 +15,15 @@ artistRouter.get('/', async (req, res) => {
   }
 });
 
+artistRouter.get('/:id', async (req, res) => {
+  try {
+    const artist = await Artist.findOne({_id: req.params.id});
+    return res.send(artist);
+  }catch {
+    return res.sendStatus(500);
+  }
+});
+
 artistRouter.post('/', imagesUpload.single('photo'), async (req, res, next) => {
   const newArtist:ArtistMutation = {
     title: req.body.title,
