@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {Albums} from "../../types";
 import noImage from "../../assets/images/no-image.png";
 import {config} from "../../config";
+import {linksStyle} from "../Layout/Layout";
 
 interface Props {
   album: Albums
@@ -19,7 +20,7 @@ const CartAlbum:React.FC<Props> = ({album}) => {
   return (
     <Grid item xs={2} sm={4} md={4}>
       <Card variant="outlined" sx={{ maxWidth: 400 }}>
-        <Link to={'/albums/' + album._id}>
+        <Link style={linksStyle} to={'/albums/' + album._id}>
           <CardMedia
             sx={{ height: 200 }}
             image={image}

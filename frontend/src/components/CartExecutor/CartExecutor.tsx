@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {Artists} from "../../types";
 import noImage from '../../assets/images/no-image.png';
 import {config} from "../../config";
+import {linksStyle} from "../Layout/Layout";
 
 interface Props {
   executor: Artists
@@ -20,7 +21,7 @@ const CartExecutor:React.FC<Props> = ({executor}) => {
     <>
       <Grid item xs={2} sm={4} md={4}>
         <Card sx={{ maxWidth: 400 }}>
-          <Link to={'executor/' + executor._id}>
+          <Link style={linksStyle} to={'executor/' + executor._id}>
             <CardMedia
               sx={{ height: 200 }}
               image={image}
