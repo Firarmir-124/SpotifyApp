@@ -1,11 +1,13 @@
-import {Artists} from "../types";
+import {Albums, Artists} from "../types";
 import {createSlice} from "@reduxjs/toolkit";
-import {fetchArtist, fetchExecutor} from "./executorThunk";
+import {fetchAlbums, fetchArtist, fetchExecutor} from "./executorThunk";
 import {RootState} from "../app/store";
 
 interface executorType {
   executors: Artists[];
   artist: Artists | null;
+  albums: Albums[];
+  albumLoading: boolean;
   executorLoading: boolean;
   artistLoading: boolean;
 }
@@ -13,6 +15,8 @@ interface executorType {
 const initialState:executorType = {
   executors: [],
   artist: null,
+  albums: [],
+  albumLoading: false,
   executorLoading: false,
   artistLoading: false,
 };
@@ -43,6 +47,17 @@ export const executorSlice = createSlice({
     builder.addCase(fetchArtist.rejected, (state) => {
       state.artistLoading = false;
     });
+
+    builder.addCase(fetchAlbums.pending, (state) => {
+      state.albumLoading = true;
+    });
+    builder.addCase(fetchAlbums.fulfilled, (state, {payload: albums}) => {
+      state.albumLoading = false;
+      state.albums = albums;
+    });
+    builder.addCase(fetchAlbums.rejected, (state) => {
+      state.albumLoading = false;
+    });
   }
 });
 
@@ -51,3 +66,5 @@ export const selectExecutors = (state: RootState) => state.executor.executors;
 export const selectExecutorLoading = (state: RootState) => state.executor.executorLoading;
 export const selectArtistLoading = (state: RootState) => state.executor.artistLoading;
 export const selectArtist = (state: RootState) => state.executor.artist;
+export const selectAlbums = (state: RootState) => state.executor.albums;
+export const selectAlbumLoading = (state: RootState) => state.executor.albumLoading;
