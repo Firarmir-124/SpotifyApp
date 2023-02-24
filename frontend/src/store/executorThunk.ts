@@ -16,7 +16,7 @@ export const fetchArtist = createAsyncThunk<Artists | null, string>(
     const response = await axiosApi.get<Artists | null>('/artists/' + id);
     const jsn = response.data;
 
-    if (jsn) {
+    if (!jsn) {
       throw new Error('not found');
     }
 
