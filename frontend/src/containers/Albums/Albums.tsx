@@ -45,7 +45,7 @@ const Albums = () => {
               !loadingAlbum ? (
                 albums.length !== 0 ? (
                   albums.map((album) => (
-                    <CartAlbum album={album}/>
+                    <CartAlbum key={album._id} album={album}/>
                   ))
                 ) : <Grid item ><Alert severity="info">У исполнителя нет альбомов !</Alert></Grid>
               ) : <Grid item><CircularProgress/></Grid>

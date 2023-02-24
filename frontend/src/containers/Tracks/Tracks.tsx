@@ -45,7 +45,7 @@ const Tracks = () => {
               !loadingTrack ? (
                 tracks.length !== 0 ? (
                   tracks.map((track) => (
-                    <CartTrack track={track}/>
+                    <CartTrack key={track._id} track={track}/>
                   ))
                 ) : <Grid item ><Alert severity="info">У альбома нет песен !</Alert></Grid>
               ) : <Grid item><CircularProgress/></Grid>
