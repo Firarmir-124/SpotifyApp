@@ -1,22 +1,12 @@
 import express from "express";
-import User from "../models/User";
 import TrackHistory from "../models/TrackHistory";
 import {Error} from "mongoose";
+import auth, {RequestWitUser} from "../middleware/auth";
 
 const trackHistoryRouter = express.Router();
 
-trackHistoryRouter.post('/', async (req, res, next) => {
-  const token = req.get('Authorization');
-
-  if (!token) {
-    return res.status(401).send({error: 'Unauthorized'});
-  }
-
-  const user = await User.findOne({token});
-
-  if (!user) {
-    return res.status(401).send({error: 'wrong token'});
-  }
+trackHistoryRouter.post('/', auth, async (req, res, next) => {
+  const user = (req as RequestWitUser).user;
 
   const newHistory = {
     user: user._id,

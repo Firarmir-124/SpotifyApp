@@ -3,7 +3,7 @@ import User from "../models/User";
 import {HydratedDocument} from "mongoose";
 import {IUser} from "../types";
 
-interface RequestWitUser extends Request {
+export interface RequestWitUser extends Request {
   user: HydratedDocument<IUser>
 }
 
