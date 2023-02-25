@@ -1,9 +1,11 @@
 import {configureStore} from "@reduxjs/toolkit";
 import {executorReducer} from "../store/executorSlice";
+import {userReducer} from "../store/userSlice";
 
 export const store = configureStore({
   reducer: {
     executor: executorReducer,
+    users: userReducer,
   }
 });
 
