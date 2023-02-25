@@ -29,6 +29,7 @@ export interface IUser {
 export interface TrackHistory {
   user: IUser._id;
   track: TrackMutation._id;
+  executor: ArtistMutation._id;
   datetime: string;
 }
 
@@ -55,6 +56,13 @@ export interface TrackType {
   _id: mongoose.Types.ObjectId;
   title: string;
   album?: mongoose.Types.ObjectId | undefined;
+  duration: string;
+  trackNumber: number;
+}
+
+export interface TrackPopulate {
+  title: string;
+  album: AlbumMutation;
   duration: string;
   trackNumber: number;
 }
