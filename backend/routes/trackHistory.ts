@@ -7,6 +7,16 @@ import {TrackPopulate} from "../types";
 
 const trackHistoryRouter = express.Router();
 
+trackHistoryRouter.get('/', auth, async (req, res) => {
+  const user = (req as RequestWitUser).user;
+
+  try {
+    const tracksHistory = await TrackHistory.find({user}).populate('track').populate('executor');
+    return res.send(tracksHistory);
+  }catch {
+    return res.sendStatus(500);
+  }
+});
 
 trackHistoryRouter.post('/', auth, async (req, res, next) => {
   const user = (req as RequestWitUser).user;
