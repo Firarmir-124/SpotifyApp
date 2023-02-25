@@ -1,6 +1,10 @@
 import React from 'react';
-import {AppBar, Button, Grid, Toolbar, Typography} from "@mui/material";
+import {AppBar, Grid, Toolbar, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
+import {useAppSelector} from "../../app/hooks";
+import {selectUser} from "../../store/userSlice";
+import UserMenu from "./UserMenu/UserMenu";
+import AnonymousMenu from "./AnonymousMenu/AnonymousMenu";
 
 interface Props {
   children: React.ReactNode
@@ -9,9 +13,11 @@ interface Props {
 export const linksStyle:React.CSSProperties = {
   textDecoration: 'none',
   color: '#333'
-}
+};
 
 const Layout:React.FC<Props> = ({children}) => {
+  const user = useAppSelector(selectUser);
+
   return (
     <>
       <AppBar position="static">
@@ -20,8 +26,9 @@ const Layout:React.FC<Props> = ({children}) => {
             Spotify
           </Typography>
           <Grid item>
-            <Button component={Link} to='/register' color="inherit">Register</Button>
-            <Button component={Link} to='/login' color="inherit">Login</Button>
+            {user ? (
+              <UserMenu user={user}/>
+            ) : <AnonymousMenu/>}
           </Grid>
         </Toolbar>
       </AppBar>
