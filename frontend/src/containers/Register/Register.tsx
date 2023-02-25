@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import { RegisterMutation } from '../../types';
-import { Avatar, Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  Link,
+  TextField,
+  Typography
+} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Layout from "../../components/Layout/Layout";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {selectRegisterError, selectRegisterLoading} from "../../store/userSlice";
+import {register} from "../../store/userThunk";
 
 const Register = () => {
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector(selectRegisterLoading);
+  const error = useAppSelector(selectRegisterError);
+  const navigate = useNavigate();
+
   const [state, setState] = useState<RegisterMutation>({
     username: '',
     password: '',
@@ -19,6 +37,21 @@ const Register = () => {
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    try {
+      await dispatch(register(state)).unwrap();
+      navigate('/');
+    }catch (e) {
+      console.log(e)
+    }
+  };
+
+  const getFieldError = (fieldName: string) => {
+    try {
+      return error?.errors[fieldName].message;
+    } catch {
+      return undefined;
+    }
   };
 
   return (
@@ -49,6 +82,8 @@ const Register = () => {
                     fullWidth
                     value={state.username}
                     onChange={inputChangeHandler}
+                    error={Boolean(getFieldError('username'))}
+                    helperText={getFieldError('username')}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -60,6 +95,8 @@ const Register = () => {
                     fullWidth
                     value={state.password}
                     onChange={inputChangeHandler}
+                    error={Boolean(getFieldError('password'))}
+                    helperText={getFieldError('password')}
                   />
                 </Grid>
               </Grid>
@@ -68,8 +105,9 @@ const Register = () => {
                 fullWidth
                 variant="contained"
                 sx={{mt: 3, mb: 2}}
+                disabled={loading}
               >
-                Sign Up
+                {!loading ? 'Sign Up' : <CircularProgress size={27}/>}
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
