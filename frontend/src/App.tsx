@@ -3,6 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import Home from "./containers/Home/Home";
 import Albums from "./containers/Albums/Albums";
 import Tracks from "./containers/Tracks/Tracks";
+import Register from "./containers/Register/Register";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Route path='/' element={<Home/>}/>
       <Route path='executor/:id' element={<Albums/>}/>
       <Route path='albums/:id' element={<Tracks/>}/>
+      <Route path='register' element={<Register/>}/>
     </Routes>
   );
 }
