@@ -2,6 +2,7 @@ import {model, Schema, Types} from "mongoose";
 import User from "./User";
 import Track from "./Track";
 import {TrackHistory} from "../types";
+import Artist from "./Artist";
 
 const TrackHistorySchema = new Schema<TrackHistory>({
   user: {
@@ -20,6 +21,15 @@ const TrackHistorySchema = new Schema<TrackHistory>({
     validate: {
       validator: (value: Types.ObjectId) => Track.findById(value),
       message: 'Track does not exist'
+    }
+  },
+  executor: {
+    type: Schema.Types.ObjectId,
+    ref: 'Artist',
+    required: true,
+    validate: {
+      validator: (value: Types.ObjectId) => Artist.findById(value),
+      message: 'Artist does not exist'
     }
   },
   datetime: {
