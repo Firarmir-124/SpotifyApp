@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Avatar, Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
+import {
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  Link,
+  TextField,
+  Typography
+} from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import {LoginMutation} from "../../types";
 import Layout from "../../components/Layout/Layout";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {selectLoginError, selectLoginLoading} from "../../store/userSlice";
+import {login} from "../../store/userThunk";
 
 const Login = () => {
+  const dispatch = useAppDispatch();
+  const error = useAppSelector(selectLoginError);
+  const loading = useAppSelector(selectLoginLoading);
+  const navigate = useNavigate();
+
   const [state, setState] = useState<LoginMutation>({
     username: '',
     password: '',
@@ -18,6 +37,15 @@ const Login = () => {
 
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+    try {
+      await dispatch(login(state)).unwrap();
+      navigate('/');
+    } catch (e) {
+      setState({
+        username: '',
+        password: '',
+      });
+    }
   };
 
   return (
@@ -37,6 +65,13 @@ const Login = () => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+
+          {error && (
+            <Alert severity="error" sx={{ mt: 2}}>
+              {error.error}
+            </Alert>
+          )}
+
           <Box component="form" onSubmit={submitFormHandler} sx={{mt: 3}}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -66,8 +101,9 @@ const Login = () => {
               fullWidth
               variant="contained"
               sx={{mt: 3, mb: 2}}
+              disabled={loading}
             >
-              Sign In
+              {!loading ? 'Sign In' : <CircularProgress size={27}/>}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
