@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppBar, Button, Toolbar, Typography} from "@mui/material";
+import {AppBar, Button, Grid, Toolbar, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 
 interface Props {
@@ -19,7 +19,10 @@ const Layout:React.FC<Props> = ({children}) => {
           <Typography style={{...linksStyle, color: '#fff'}} variant="h6" component={Link} to='/' sx={{ flexGrow: 1 }}>
             Spotify
           </Typography>
-          <Button component={Link} to='/register' color="inherit">Sign up</Button>
+          <Grid item>
+            <Button component={Link} to='/register' color="inherit">Register</Button>
+            <Button component={Link} to='/login' color="inherit">Login</Button>
+          </Grid>
         </Toolbar>
       </AppBar>
       <main>
