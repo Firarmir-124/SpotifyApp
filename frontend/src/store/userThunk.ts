@@ -19,7 +19,7 @@ export const register = createAsyncThunk<User, RegisterMutation, {rejectValue: V
 );
 
 export const login = createAsyncThunk<User, LoginMutation, {rejectValue: GlobalError}>(
-  'users/register',
+  'users/login',
   async (LoginMutation, {rejectWithValue}) => {
     try {
       const response = await axiosApi.post<RegisterResponse>('/users/sessions', LoginMutation);
