@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Menu, MenuItem} from "@mui/material";
 import {User} from "../../../types";
+import {Link} from "react-router-dom";
 
 interface Props {
   user: User
@@ -30,7 +31,7 @@ const UserMenu:React.FC<Props> = ({user}) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem>Track history</MenuItem>
+        <MenuItem component={Link} to='/track_history'>Track history</MenuItem>
         <MenuItem>My account</MenuItem>
         <MenuItem>Logout</MenuItem>
       </Menu>
