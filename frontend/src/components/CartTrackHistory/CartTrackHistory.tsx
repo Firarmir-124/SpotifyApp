@@ -26,7 +26,7 @@ const CartTrackHistory:React.FC<Props> = ({track}) => {
 
           <Grid item>
             <Typography variant="subtitle1" color="text.secondary" component="div">
-              {dayjs(track.datetime).format('DD/MM/YYYY')}
+              {dayjs(track.datetime).format('MMMM D, YYYY h:mm A')}
             </Typography>
           </Grid>
         </Grid>
