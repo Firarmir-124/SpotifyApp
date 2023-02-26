@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {Album, Albums, Artists, Tracks} from "../types";
+import {Album, Albums, Artists, Tracks, TracksHistory} from "../types";
 import axiosApi from "../axiosApi";
 import {RootState} from "../app/store";
 
@@ -74,6 +74,20 @@ export const trackHistoryPost = createAsyncThunk<void, string, {state: RootState
         {track: id},
         {headers: {'Authorization': user.token}}
       );
+    } else {
+      throw new Error('Not found');
+    }
+  }
+);
+
+export const trackHistoryGet = createAsyncThunk<TracksHistory[], undefined, {state: RootState}>(
+  'trackHistory/get',
+  async (_, thunkAPI) => {
+    const user = thunkAPI.getState().users.user;
+
+    if (user) {
+      const response = await axiosApi.get('/track_history', {headers: {'Authorization': user.token}});
+      return response.data
     } else {
       throw new Error('Not found');
     }
