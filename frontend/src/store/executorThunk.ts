@@ -62,3 +62,20 @@ export const fetchTracks = createAsyncThunk<Tracks[], string, {state: RootState}
     throw new Error('Not found');
   }
 );
+
+export const trackHistoryPost = createAsyncThunk<void, string, {state: RootState}>(
+  'trackHistory/post',
+  async (id, thunkAPI) => {
+    const user = thunkAPI.getState().users.user;
+
+    if (user) {
+      await axiosApi.post(
+        '/track_history',
+        {track: id},
+        {headers: {'Authorization': user.token}}
+      );
+    } else {
+      throw new Error('Not found');
+    }
+  }
+);
