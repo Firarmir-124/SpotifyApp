@@ -5,10 +5,11 @@ import {Tracks} from "../../types";
 import music from '../../assets/images/music.png';
 
 interface Props {
-  track: Tracks
+  track: Tracks;
+  trackHistory: React.MouseEventHandler;
 }
 
-const CartTrack:React.FC<Props> = ({track}) => {
+const CartTrack:React.FC<Props> = ({track, trackHistory}) => {
   return (
     <Card
       sx={{
@@ -23,7 +24,7 @@ const CartTrack:React.FC<Props> = ({track}) => {
     >
       <Box component='div'>
         <Chip variant='outlined' sx={{ml: 1}} size='small' label={track.trackNumber} color="primary" />
-        <IconButton aria-label="play/pause">
+        <IconButton onClick={trackHistory} aria-label="play/pause">
           <PlayArrowIcon sx={{ height: 40, width: 40 }} />
         </IconButton>
       </Box>

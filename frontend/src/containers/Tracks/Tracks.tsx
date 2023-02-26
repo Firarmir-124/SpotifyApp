@@ -4,7 +4,7 @@ import {Alert, Chip, CircularProgress, Container, Paper} from "@mui/material";
 import {Navigate, useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectAlbum, selectAlbumOneLoading, selectTracks, selectTracksLoading} from "../../store/executorSlice";
-import {fetchAlbum, fetchTracks} from "../../store/executorThunk";
+import {fetchAlbum, fetchTracks, trackHistoryPost} from "../../store/executorThunk";
 import CartTrack from "../../components/CartTrack/CartTrack";
 import {selectUser} from "../../store/userSlice";
 
@@ -28,6 +28,10 @@ const Tracks = () => {
     void getInformation();
   }, [getInformation]);
 
+  const trackHistory = async (id: string) => {
+    await dispatch(trackHistoryPost(id));
+  };
+
   if (!user) {
     return <Navigate to='/login'/>
   }
@@ -50,7 +54,7 @@ const Tracks = () => {
             !loadingTrack ? (
               tracks.length !== 0 ? (
                 tracks.map((track) => (
-                  <CartTrack key={track._id} track={track}/>
+                  <CartTrack trackHistory={() => trackHistory(track._id)} key={track._id} track={track}/>
                 ))
               ) : <Alert severity="info">У альбома нет песен !</Alert>
             ) : <CircularProgress/>
