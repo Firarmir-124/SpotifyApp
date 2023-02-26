@@ -1,6 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {Album, Albums, Artists, Tracks} from "../types";
 import axiosApi from "../axiosApi";
+import {RootState} from "../app/store";
 
 export const fetchExecutor = createAsyncThunk<Artists[]>(
   'executor/fetch',
@@ -46,10 +47,18 @@ export const fetchAlbum = createAsyncThunk<Album | null, string>(
   }
 );
 
-export const fetchTracks = createAsyncThunk<Tracks[], string>(
+export const fetchTracks = createAsyncThunk<Tracks[], string, {state: RootState}>(
   'tracks/fetch',
-  async (id) => {
-    const response = await axiosApi.get<Tracks[]>('/tracks?album=' + id);
-    return response.data
+  async (id, thunkAPI) => {
+    const user = thunkAPI.getState().users.user;
+
+    if (user) {
+      const response = await axiosApi.get<Tracks[]>(
+        '/tracks?album=' + id,
+        {headers: {'Authorization': user.token}}
+      );
+      return response.data
+    }
+    throw new Error('Not found');
   }
 );
