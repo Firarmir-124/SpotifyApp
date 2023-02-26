@@ -1,11 +1,12 @@
 import React, {useCallback, useEffect} from 'react';
 import Layout from "../../components/Layout/Layout";
 import {Alert, Chip, CircularProgress, Container, Grid, Paper} from "@mui/material";
-import {useParams} from "react-router-dom";
+import {Navigate, useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectAlbum, selectAlbumOneLoading, selectTracks, selectTracksLoading} from "../../store/executorSlice";
 import {fetchAlbum, fetchTracks} from "../../store/executorThunk";
 import CartTrack from "../../components/CartTrack/CartTrack";
+import {selectUser} from "../../store/userSlice";
 
 const Tracks = () => {
   const {id} = useParams();
@@ -14,6 +15,7 @@ const Tracks = () => {
   const loadingAlbum = useAppSelector(selectAlbumOneLoading);
   const tracks = useAppSelector(selectTracks);
   const loadingTrack = useAppSelector(selectTracksLoading);
+  const user = useAppSelector(selectUser);
 
   const getInformation = useCallback(async () => {
     if (id) {
@@ -25,6 +27,10 @@ const Tracks = () => {
   useEffect(() => {
     void getInformation();
   }, [getInformation]);
+
+  if (!user) {
+    return <Navigate to='/login'/>
+  }
 
   return (
     <Layout>
