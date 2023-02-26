@@ -1,11 +1,13 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {trackHistoryPost} from "./executorThunk";
+import {RootState} from "../app/store";
 
 interface trackHistoryType {
-  trackHistoryPost: boolean;
+  trackHistoryPostLoading: boolean;
 }
 
 const initialState:trackHistoryType = {
-  trackHistoryPost: false,
+  trackHistoryPostLoading: false,
 };
 
 export const trackHistorySlice = createSlice({
@@ -13,8 +15,17 @@ export const trackHistorySlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-
+    builder.addCase(trackHistoryPost.pending, (state) => {
+      state.trackHistoryPostLoading = true;
+    });
+    builder.addCase(trackHistoryPost.fulfilled, (state) => {
+      state.trackHistoryPostLoading = false;
+    });
+    builder.addCase(trackHistoryPost.rejected, (state) => {
+      state.trackHistoryPostLoading = false;
+    });
   }
 });
 
 export const trackHistoryReducer = trackHistorySlice.reducer;
+export const trackHistoryPostLoading = (state: RootState) => state.trackHistory.trackHistoryPostLoading;
