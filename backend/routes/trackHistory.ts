@@ -11,7 +11,7 @@ trackHistoryRouter.get('/', auth, async (req, res) => {
   const user = (req as RequestWitUser).user;
 
   try {
-    const tracksHistory = await TrackHistory.find({user}).populate('track').populate('executor');
+    const tracksHistory = await TrackHistory.find({user}).populate('track').populate('executor').sort([['datetime', -1]]);
     return res.send(tracksHistory);
   }catch {
     return res.sendStatus(500);
