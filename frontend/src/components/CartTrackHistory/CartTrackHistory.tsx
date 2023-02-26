@@ -9,7 +9,7 @@ interface Props {
 
 const CartTrackHistory:React.FC<Props> = ({track}) => {
   return (
-    <Card elevation={4} sx={{width: '100%'}}>
+    <Card elevation={4} sx={{width: '100%', mb: 1}}>
       <CardContent>
         <Grid container columns={{ xs: 4, sm: 8, md: 12 }} justifyContent='space-between' alignItems='center'>
           <Grid item>
