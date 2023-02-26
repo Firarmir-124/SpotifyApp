@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import Layout from "../../components/Layout/Layout";
-import {Alert, Chip, CircularProgress, Container, Grid, Paper} from "@mui/material";
+import {Alert, Chip, CircularProgress, Container, Paper} from "@mui/material";
 import {Navigate, useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectAlbum, selectAlbumOneLoading, selectTracks, selectTracksLoading} from "../../store/executorSlice";
@@ -46,17 +46,15 @@ const Tracks = () => {
           color="info"
         />
         <Paper elevation={3} sx={{minHeight: '80vh', p: 1}}>
-          <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-            {
-              !loadingTrack ? (
-                tracks.length !== 0 ? (
-                  tracks.map((track) => (
-                    <CartTrack key={track._id} track={track}/>
-                  ))
-                ) : <Grid item ><Alert severity="info">У альбома нет песен !</Alert></Grid>
-              ) : <Grid item><CircularProgress/></Grid>
-            }
-          </Grid>
+          {
+            !loadingTrack ? (
+              tracks.length !== 0 ? (
+                tracks.map((track) => (
+                  <CartTrack key={track._id} track={track}/>
+                ))
+              ) : <Alert severity="info">У альбома нет песен !</Alert>
+            ) : <CircularProgress/>
+          }
         </Paper>
       </Container>
     </Layout>
