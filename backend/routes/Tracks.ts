@@ -2,13 +2,12 @@ import express from "express";
 import Track from "../models/Track";
 import {TrackMutation} from "../types";
 import mongoose from "mongoose";
-import auth from "../middleware/auth";
 
 
 const tracksRouter = express.Router();
 let counter = 1;
 
-tracksRouter.get('/', auth, async (req, res) => {
+tracksRouter.get('/', async (req, res) => {
   const query = req.query.album as string;
 
   try {

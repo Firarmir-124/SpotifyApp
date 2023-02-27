@@ -1,8 +1,11 @@
 import React from 'react';
-import {Box, Card, CardContent, CardMedia, Chip, Grid, IconButton, Typography} from "@mui/material";
+import {Box, Card, CardContent, CardMedia, Chip, IconButton, Typography} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import {Tracks} from "../../types";
 import music from '../../assets/images/music.png';
+import {useAppSelector} from "../../app/hooks";
+import {selectUser} from "../../store/userSlice";
+import {useNavigate} from "react-router-dom";
 
 interface Props {
   track: Tracks;
@@ -10,6 +13,9 @@ interface Props {
 }
 
 const CartTrack:React.FC<Props> = ({track, trackHistory}) => {
+  const user = useAppSelector(selectUser);
+  const navigate = useNavigate();
+
   return (
     <Card
       sx={{
@@ -24,7 +30,7 @@ const CartTrack:React.FC<Props> = ({track, trackHistory}) => {
     >
       <Box component='div'>
         <Chip variant='outlined' sx={{ml: 1}} size='small' label={track.trackNumber} color="primary" />
-        <IconButton onClick={trackHistory} aria-label="play/pause">
+        <IconButton onClick={user ? trackHistory : () => navigate('/login')} aria-label="play/pause">
           <PlayArrowIcon sx={{ height: 40, width: 40 }} />
         </IconButton>
       </Box>

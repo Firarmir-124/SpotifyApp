@@ -7,12 +7,11 @@ import {
   Container,
   Paper
 } from "@mui/material";
-import {Navigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectAlbum, selectAlbumOneLoading, selectTracks, selectTracksLoading} from "../../store/executorSlice";
 import {fetchAlbum, fetchTracks, trackHistoryPost} from "../../store/executorThunk";
 import CartTrack from "../../components/CartTrack/CartTrack";
-import {selectUser} from "../../store/userSlice";
 import {getVideoId} from "../../store/trackHistorySlice";
 import YouTubePlayer from "../YouTubePlayer/YouTubePlayer";
 
@@ -23,7 +22,6 @@ const Tracks = () => {
   const loadingAlbum = useAppSelector(selectAlbumOneLoading);
   const tracks = useAppSelector(selectTracks);
   const loadingTrack = useAppSelector(selectTracksLoading);
-  const user = useAppSelector(selectUser);
 
   const getInformation = useCallback(async () => {
     if (id) {
@@ -40,10 +38,6 @@ const Tracks = () => {
     await dispatch(trackHistoryPost(id));
     dispatch(getVideoId(videoId));
   };
-
-  if (!user) {
-    return <Navigate to='/login'/>
-  }
 
   return (
     <Layout>
@@ -69,8 +63,6 @@ const Tracks = () => {
             ) : <CircularProgress/>
           }
         </Paper>
-
-
         <YouTubePlayer/>
       </Container>
     </Layout>

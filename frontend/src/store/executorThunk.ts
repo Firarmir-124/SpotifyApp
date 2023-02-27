@@ -47,19 +47,11 @@ export const fetchAlbum = createAsyncThunk<Album | null, string>(
   }
 );
 
-export const fetchTracks = createAsyncThunk<Tracks[], string, {state: RootState}>(
+export const fetchTracks = createAsyncThunk<Tracks[], string>(
   'tracks/fetch',
-  async (id, thunkAPI) => {
-    const user = thunkAPI.getState().users.user;
-
-    if (user) {
-      const response = await axiosApi.get<Tracks[]>(
-        '/tracks?album=' + id,
-        {headers: {'Authorization': user.token}}
-      );
-      return response.data
-    }
-    throw new Error('Not found');
+  async (id) => {
+    const response = await axiosApi.get<Tracks[]>('/tracks?album=' + id);
+    return response.data
   }
 );
 
