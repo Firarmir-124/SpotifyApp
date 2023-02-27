@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Layout from "../../components/Layout/Layout";
-import {Alert, Chip, CircularProgress, Container, Grid, Paper} from "@mui/material";
+import {Alert, Chip, CircularProgress, Container, Paper} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectTrackHistory, selectTrackHistoryGetLoading} from "../../store/trackHistorySlice";
 import {selectUser} from "../../store/userSlice";

@@ -10,7 +10,7 @@ const userPersistConfig = {
   key: 'spotify:users',
   storage,
   whitelist: ['user'],
-}
+};
 
 const rootReducer = combineReducers({
   executor: executorReducer,
