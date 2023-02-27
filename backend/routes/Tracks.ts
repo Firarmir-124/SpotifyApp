@@ -30,6 +30,7 @@ tracksRouter.post('/', async (req, res, next) => {
     title: req.body.title,
     album: req.body.album,
     duration: req.body.duration,
+    youtubeLink: req.body.youtubeLink.replace(/https:\/\/youtu.be\//gmi, ''),
     trackNumber: counter++,
   };
 
