@@ -1,14 +1,10 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import Layout from "../../components/Layout/Layout";
 import {
   Alert,
-  Button,
   Chip,
   CircularProgress,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
   Paper
 } from "@mui/material";
 import {Navigate, useParams} from "react-router-dom";
@@ -17,11 +13,10 @@ import {selectAlbum, selectAlbumOneLoading, selectTracks, selectTracksLoading} f
 import {fetchAlbum, fetchTracks, trackHistoryPost} from "../../store/executorThunk";
 import CartTrack from "../../components/CartTrack/CartTrack";
 import {selectUser} from "../../store/userSlice";
-import YouTube, {YouTubeProps} from "react-youtube";
-import {getVideoId, selectVideoId} from "../../store/trackHistorySlice";
+import {getVideoId} from "../../store/trackHistorySlice";
+import YouTubePlayer from "../YouTubePlayer/YouTubePlayer";
 
 const Tracks = () => {
-  const [open, setOpen] = useState(false);
   const {id} = useParams();
   const dispatch = useAppDispatch();
   const album = useAppSelector(selectAlbum);
@@ -29,7 +24,6 @@ const Tracks = () => {
   const tracks = useAppSelector(selectTracks);
   const loadingTrack = useAppSelector(selectTracksLoading);
   const user = useAppSelector(selectUser);
-  const videoId = useAppSelector(selectVideoId);
 
   const getInformation = useCallback(async () => {
     if (id) {
@@ -45,15 +39,6 @@ const Tracks = () => {
   const trackHistory = async (id: string, videoId: string) => {
     await dispatch(trackHistoryPost(id));
     dispatch(getVideoId(videoId));
-    setOpen(true);
-  };
-
-  const opts: YouTubeProps['opts'] = {
-    height: '400',
-    width: '400',
-    playerVars: {
-      autoplay: 1,
-    },
   };
 
   if (!user) {
@@ -86,19 +71,7 @@ const Tracks = () => {
         </Paper>
 
 
-        <Dialog
-          open={open}
-          onClose={() => setOpen(false)}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogContent>
-            <YouTube videoId={videoId} opts={opts}/>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpen(false)}>Close</Button>
-          </DialogActions>
-        </Dialog>
+        <YouTubePlayer/>
       </Container>
     </Layout>
   );
