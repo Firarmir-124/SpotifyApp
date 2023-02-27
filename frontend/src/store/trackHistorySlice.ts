@@ -8,6 +8,7 @@ interface trackHistoryType {
   trackHistory: TracksHistory[];
   trackHistoryGetLoading: boolean;
   videoId: string;
+  openModal: boolean;
 }
 
 const initialState:trackHistoryType = {
@@ -15,6 +16,7 @@ const initialState:trackHistoryType = {
   trackHistory: [],
   trackHistoryGetLoading: false,
   videoId: '',
+  openModal: false,
 };
 
 export const trackHistorySlice = createSlice({
@@ -23,6 +25,10 @@ export const trackHistorySlice = createSlice({
   reducers: {
     getVideoId: (state, {payload: id}:PayloadAction<string>) => {
       state.videoId = id;
+      state.openModal = true;
+    },
+    closeModal: (state) => {
+      state.openModal = false;
     }
   },
   extraReducers: (builder) => {
@@ -50,7 +56,8 @@ export const trackHistorySlice = createSlice({
 });
 
 export const trackHistoryReducer = trackHistorySlice.reducer;
-export const {getVideoId} = trackHistorySlice.actions;
+export const {getVideoId, closeModal} = trackHistorySlice.actions;
 export const selectTrackHistory = (state: RootState) => state.trackHistory.trackHistory;
 export const selectTrackHistoryGetLoading = (state: RootState) => state.trackHistory.trackHistoryGetLoading;
 export const selectVideoId = (state: RootState) => state.trackHistory.videoId;
+export const selectOpenModal = (state: RootState) => state.trackHistory.openModal;
