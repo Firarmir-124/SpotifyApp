@@ -15,6 +15,7 @@ export interface TrackMutation {
   title: string;
   album: string;
   duration: string;
+  youtubeLink: string;
   trackNumber: number;
 }
 
@@ -79,8 +80,4 @@ export interface TracksHistory {
   track: Tracks;
   executor: Artists;
   datetime: string;
-}
-
-export interface TracksHistoryMutation {
-  track: string;
 }
