@@ -16,6 +16,7 @@ const TrackSchema = new Schema({
       message: 'Artist does not exist'
     }
   },
+  youtubeLink: String,
   duration: {
     type: String,
     required: true
