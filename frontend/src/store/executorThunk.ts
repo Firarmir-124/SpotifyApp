@@ -129,7 +129,7 @@ export const createAlbum = createAsyncThunk<void, AlbumMutation, {rejectValue: V
 );
 
 export const createTrack = createAsyncThunk<void, TrackMutation, {rejectValue: ValidationError}>(
-  'executor/createAlbum',
+  'executor/createTrack',
   async (trackMutation, {rejectWithValue}) => {
     const formDate = new FormData();
     const keys = Object.keys(trackMutation) as (keyof TrackMutation)[];
