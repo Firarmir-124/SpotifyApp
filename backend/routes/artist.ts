@@ -12,21 +12,15 @@ const artistRouter = express.Router();
 
 artistRouter.get('/', authAnonymous, async (req, res) => {
   const user = (req as RequestWitUser).user;
-  const query = req.query.user as string;
 
   try {
-    if (req.query.user !== undefined) {
-      const artistsUser = await Artist.find({user: query, isPublished: false});
-      return res.send(artistsUser);
-    } else {
-      const artists = user ? (
-        user.role === 'admin' ? await Artist.find() : await Artist.find({isPublished: true})
-      ) : (
-        await Artist.find({isPublished: true})
-      );
+    const artists = user ? (
+      user.role === 'admin' ? await Artist.find() : await Artist.find({isPublished: true})
+    ) : (
+      await Artist.find({isPublished: true})
+    );
 
-      return res.send(artists);
-    }
+    return res.send(artists);
   }catch {
     return res.sendStatus(500);
   }

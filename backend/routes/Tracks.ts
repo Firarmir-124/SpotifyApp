@@ -10,7 +10,6 @@ const tracksRouter = express.Router();
 
 tracksRouter.get('/', authAnonymous, async (req, res) => {
   const query = req.query.album as string;
-  const query2 = req.query.user as string;
   const user = (req as RequestWitUser).user;
 
   try {
@@ -25,9 +24,6 @@ tracksRouter.get('/', authAnonymous, async (req, res) => {
       );
 
       return res.send(tracksId);
-    } else if (req.query.user !== undefined) {
-      const tracksUser = await Track.find({user: query2, isPublished: false});
-      return res.send(tracksUser);
     } else {
       const tracks = user ? (
         user.role === 'admin' ? (

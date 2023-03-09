@@ -37,7 +37,6 @@ const albumsRouter = express.Router();
 
 albumsRouter.get('/', authAnonymous, async (req, res) => {
   const query = req.query.artist as string;
-  const query2 = req.query.user as string;
   const user = (req as RequestWitUser).user;
 
   try {
@@ -54,9 +53,6 @@ albumsRouter.get('/', authAnonymous, async (req, res) => {
       const newAlbums = convertAlbum(albums, tracks);
 
       return res.send(newAlbums);
-    } else if (req.query.user !== undefined) {
-      const albumsUser = await Album.find({user: query2, isPublished: false});
-      return res.send(albumsUser);
     } else {
       const albums = user ? (
         user.role === 'admin' ? (
