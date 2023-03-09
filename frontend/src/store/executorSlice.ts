@@ -1,6 +1,6 @@
-import {Album, Albums, Artists, Tracks} from "../types";
+import {Album, Albums, Artists, Tracks, ValidationError} from "../types";
 import {createSlice} from "@reduxjs/toolkit";
-import {fetchAlbum, fetchAlbums, fetchArtist, fetchExecutor, fetchTracks} from "./executorThunk";
+import {createExecutor, fetchAlbum, fetchAlbums, fetchArtist, fetchExecutor, fetchTracks} from "./executorThunk";
 import {RootState} from "../app/store";
 
 interface executorType {
@@ -14,6 +14,8 @@ interface executorType {
   albumLoading: boolean;
   executorLoading: boolean;
   artistLoading: boolean;
+  createArtistLoading: boolean;
+  errorArtist: ValidationError | null;
 }
 
 const initialState:executorType = {
@@ -27,6 +29,8 @@ const initialState:executorType = {
   albumLoading: false,
   executorLoading: false,
   artistLoading: false,
+  createArtistLoading: false,
+  errorArtist: null,
 };
 
 export const executorSlice = createSlice({
@@ -88,6 +92,17 @@ export const executorSlice = createSlice({
     builder.addCase(fetchTracks.rejected, (state) => {
       state.tracksLoading = false;
     });
+
+    builder.addCase(createExecutor.pending, (state) => {
+      state.createArtistLoading = true;
+    });
+    builder.addCase(createExecutor.fulfilled, (state) => {
+      state.createArtistLoading = false;
+    });
+    builder.addCase(createExecutor.rejected, (state, {payload: error}) => {
+      state.createArtistLoading = false;
+      state.errorArtist = error || null;
+    });
   }
 });
 
@@ -102,3 +117,5 @@ export const selectAlbum = (state: RootState) => state.executor.album;
 export const selectAlbumOneLoading = (state: RootState) => state.executor.albumOneLoading;
 export const selectTracks = (state: RootState) => state.executor.tracks;
 export const selectTracksLoading = (state: RootState) => state.executor.tracksLoading;
+export const selectCreateArtistLoading = (state: RootState) => state.executor.createArtistLoading;
+export const selectArtistError = (state: RootState) => state.executor.errorArtist;
