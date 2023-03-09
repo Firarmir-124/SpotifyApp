@@ -8,15 +8,31 @@ import {AlbumMutation} from "../types";
 
 const tracksRouter = express.Router();
 
-tracksRouter.get('/', async (req, res) => {
+tracksRouter.get('/', authAnonymous, async (req, res) => {
   const query = req.query.album as string;
+  const user = (req as RequestWitUser).user;
 
   try {
     if (req.query.album !== undefined) {
-      const tracksId = await Track.find({album: query}).sort([['trackNumber', +1]]);
+
+      const tracksId = user ? (
+        user.role === 'admin' ? (
+          await Track.find({album: query}).sort([['trackNumber', +1]])
+        ) : await Track.find({album: query, user: user.id}).sort([['trackNumber', +1]])
+      ) : (
+        await Track.find({album: query, isPublished: true}).sort([['trackNumber', +1]])
+      );
+
       return res.send(tracksId);
     } else {
-      const tracks = await Track.find().sort([['trackNumber', +1]]);
+      const tracks = user ? (
+        user.role === 'admin' ? (
+          await Track.find().sort([['trackNumber', +1]])
+        ) : await Track.find({user: user.id}).sort([['trackNumber', +1]])
+      ) : (
+        await Track.find({isPublished: true}).sort([['trackNumber', +1]])
+      );
+
       return res.send(tracks);
     }
 

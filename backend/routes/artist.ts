@@ -10,9 +10,16 @@ import {ArtistMutation} from "../types";
 
 const artistRouter = express.Router();
 
-artistRouter.get('/', async (req, res) => {
+artistRouter.get('/', authAnonymous, async (req, res) => {
+  const user = (req as RequestWitUser).user;
+
   try {
-    const artists = await Artist.find();
+    const artists = user ? (
+      user.role === 'admin' ? await Artist.find() : await Artist.find({user: user.id})
+    ) : (
+      await Artist.find({isPublished: true})
+    );
+
     return res.send(artists);
   }catch {
     return res.sendStatus(500);

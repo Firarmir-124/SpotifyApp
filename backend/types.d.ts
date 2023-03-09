@@ -48,16 +48,20 @@ export interface newAlbums {
     executor: mongoose.Types.ObjectId;
     date: number;
     image: string | null;
+    isPublished: boolean;
+    user: string | undefined;
   };
   counter: number
 }
 
 export interface AlbumType {
-  _id: mongoose.Types.ObjectId
-  title: string,
-  date: number,
-  executor: mongoose.Types.ObjectId,
-  image?: string | undefined,
+  _id: mongoose.Types.ObjectId;
+  title: string;
+  date: number;
+  executor: mongoose.Types.ObjectId;
+  image?: string | undefined;
+  isPublished: boolean;
+  user?: string | undefined;
 }
 
 export interface TrackType {

@@ -21,6 +21,8 @@ const convertAlbum = (albums:AlbumType[], tracks:TrackType[]) => {
         executor: item.executor,
         date: item.date,
         image: item.image || null,
+        isPublished: item.isPublished,
+        user: item.user
       },
       counter: filter.length
     };
@@ -33,18 +35,32 @@ const convertAlbum = (albums:AlbumType[], tracks:TrackType[]) => {
 
 const albumsRouter = express.Router();
 
-albumsRouter.get('/', async (req, res) => {
+albumsRouter.get('/', authAnonymous, async (req, res) => {
   const query = req.query.artist as string;
+  const user = (req as RequestWitUser).user;
 
   try {
     if (req.query.artist !== undefined) {
-      const albums = await Album.find({executor: query}).sort([['date', -1]]);
+      const albums = user ? (
+        user.role === 'admin' ? (
+          await Album.find({executor: query}).sort([['date', -1]])
+        ) : await Album.find({executor: query, user: user.id}).sort([['date', -1]])
+      ) : (
+        await Album.find({executor: query, isPublished: true}).sort([['date', -1]])
+      );
+
       const tracks = await Track.find();
       const newAlbums = convertAlbum(albums, tracks);
 
       return res.send(newAlbums);
     } else {
-      const albums = await Album.find().sort([['date', -1]]);
+      const albums = user ? (
+        user.role === 'admin' ? (
+          await Album.find().sort([['date', -1]])
+        ) : await Album.find({user: user.id}).sort([['date', -1]])
+      ) : (
+        await Album.find({isPublished: true}).sort([['date', -1]])
+      );
       const tracks = await Track.find();
       const newAlbums = convertAlbum(albums, tracks);
 
