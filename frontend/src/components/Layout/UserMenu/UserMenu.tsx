@@ -41,7 +41,7 @@ const UserMenu:React.FC<Props> = ({user}) => {
         <MenuItem component={Link} to='/track_history'>Track history</MenuItem>
         <MenuItem component={Link} to='/create_executor'>Create executor</MenuItem>
         <MenuItem component={Link} to='/create_album'>Create album</MenuItem>
-        <MenuItem>Create track</MenuItem>
+        <MenuItem component={Link} to='/create_track'>Create track</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>
