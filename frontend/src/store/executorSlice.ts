@@ -1,6 +1,14 @@
 import {Album, Albums, Artists, Tracks, ValidationError} from "../types";
 import {createSlice} from "@reduxjs/toolkit";
-import {createExecutor, fetchAlbum, fetchAlbums, fetchArtist, fetchExecutor, fetchTracks} from "./executorThunk";
+import {
+  createAlbum,
+  createExecutor,
+  fetchAlbum,
+  fetchAlbums,
+  fetchArtist,
+  fetchExecutor,
+  fetchTracks
+} from "./executorThunk";
 import {RootState} from "../app/store";
 
 interface executorType {
@@ -16,6 +24,8 @@ interface executorType {
   artistLoading: boolean;
   createArtistLoading: boolean;
   errorArtist: ValidationError | null;
+  createAlbumLoading: boolean;
+  errorAlbum: ValidationError | null;
 }
 
 const initialState:executorType = {
@@ -31,6 +41,8 @@ const initialState:executorType = {
   artistLoading: false,
   createArtistLoading: false,
   errorArtist: null,
+  createAlbumLoading: false,
+  errorAlbum: null,
 };
 
 export const executorSlice = createSlice({
@@ -103,6 +115,17 @@ export const executorSlice = createSlice({
       state.createArtistLoading = false;
       state.errorArtist = error || null;
     });
+
+    builder.addCase(createAlbum.pending, (state) => {
+      state.createAlbumLoading = true;
+    });
+    builder.addCase(createAlbum.fulfilled, (state) => {
+      state.createAlbumLoading = false;
+    });
+    builder.addCase(createAlbum.rejected, (state, {payload: error}) => {
+      state.createAlbumLoading = false;
+      state.errorAlbum = error || null;
+    });
   }
 });
 
@@ -119,3 +142,5 @@ export const selectTracks = (state: RootState) => state.executor.tracks;
 export const selectTracksLoading = (state: RootState) => state.executor.tracksLoading;
 export const selectCreateArtistLoading = (state: RootState) => state.executor.createArtistLoading;
 export const selectArtistError = (state: RootState) => state.executor.errorArtist;
+export const selectCreateAlbumLoading = (state: RootState) => state.executor.createAlbumLoading;
+export const selectAlbumError = (state: RootState) => state.executor.errorAlbum;
