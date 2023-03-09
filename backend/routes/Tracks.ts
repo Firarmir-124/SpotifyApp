@@ -2,6 +2,7 @@ import express from "express";
 import Track from "../models/Track";
 import mongoose from "mongoose";
 import auth, {RequestWitUser} from "../middleware/auth";
+import authAnonymous from "../middleware/authAnonymous";
 
 const tracksRouter = express.Router();
 
@@ -44,6 +45,43 @@ tracksRouter.post('/', auth,  async (req, res, next) => {
       return next(e);
     }
   }
+});
+
+tracksRouter.delete('/:id', authAnonymous, async (req, res) => {
+  const {id} = req.params;
+  const user = (req as RequestWitUser).user;
+
+  if (!user) {
+    return res.sendStatus(403);
+  }
+
+  try {
+    const track = await Track.findOne({_id: id});
+
+    if (user.role === 'admin') {
+      await Track.deleteOne({_id: id});
+      return res.send('admin deletes: ' + id);
+    } else if (user.role === 'user') {
+      if (track) {
+        if (track.isPublished === false) {
+
+          if (track.user !== user._id.toString()) {
+            return res.status(403).send({error: 'Данная сущность чужая, удалить нельзя !'});
+          } else {
+            await Track.deleteOne({_id: id});
+            return res.send('user deletes: ' + id)
+          }
+
+        } else {
+          return res.status(403).send({error: 'Запрещено удаление'});
+        }
+      }
+    }
+
+  } catch (e) {
+    return res.sendStatus(500);
+  }
+
 });
 
 export default tracksRouter

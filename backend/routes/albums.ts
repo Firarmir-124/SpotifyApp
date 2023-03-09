@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import {imagesUpload} from "../multer";
 import Track from "../models/Track";
 import auth, {RequestWitUser} from "../middleware/auth";
+import authAnonymous from "../middleware/authAnonymous";
 
 const convertAlbum = (albums:AlbumType[], tracks:TrackType[]) => {
   const newAlbums:newAlbums[] = [];
@@ -84,6 +85,43 @@ albumsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next
       return next(e);
     }
   }
+});
+
+albumsRouter.delete('/:id', authAnonymous, async (req, res) => {
+  const {id} = req.params;
+  const user = (req as RequestWitUser).user;
+
+  if (!user) {
+    return res.sendStatus(403);
+  }
+
+  try {
+    const album = await Album.findOne({_id: id});
+
+    if (user.role === 'admin') {
+      await Album.deleteOne({_id: id});
+      return res.send('admin deletes: ' + id);
+    } else if (user.role === 'user') {
+      if (album) {
+        if (album.isPublished === false) {
+
+          if (album.user !== user._id.toString()) {
+            return res.status(403).send({error: 'Данная сущность чужая, удалить нельзя !'});
+          } else {
+            await Album.deleteOne({_id: id});
+            return res.send('user deletes: ' + id)
+          }
+
+        } else {
+          return res.status(403).send({error: 'Запрещено удаление'});
+        }
+      }
+    }
+
+  } catch (e) {
+    return res.sendStatus(500);
+  }
+
 });
 
 export default albumsRouter;
