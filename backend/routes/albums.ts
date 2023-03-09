@@ -1,11 +1,12 @@
 import express from "express";
 import Album from "../models/Album";
-import {AlbumType, newAlbums, TrackType} from "../types";
-import mongoose from "mongoose";
+import {AlbumMutation, AlbumType, newAlbums, TrackType} from "../types";
+import mongoose, {HydratedDocument} from "mongoose";
 import {imagesUpload} from "../multer";
 import Track from "../models/Track";
 import auth, {RequestWitUser} from "../middleware/auth";
 import authAnonymous from "../middleware/authAnonymous";
+import permit from "../middleware/permit";
 
 const convertAlbum = (albums:AlbumType[], tracks:TrackType[]) => {
   const newAlbums:newAlbums[] = [];
@@ -84,6 +85,29 @@ albumsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next
     } else {
       return next(e);
     }
+  }
+});
+
+albumsRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
+  try {
+    const album: HydratedDocument<AlbumMutation> | null = await Album.findOne({_id: req.params.id});
+
+    if (!album) {
+      return res.sendStatus(404);
+    }
+
+    album.isPublished ? album.isPublished = !req.body.isPublished : album.isPublished = req.body.isPublished;
+
+    await album.save();
+    return res.send(album.isPublished);
+  } catch (e) {
+
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    } else {
+      return next(e);
+    }
+
   }
 });
 

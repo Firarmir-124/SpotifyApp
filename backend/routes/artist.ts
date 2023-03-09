@@ -1,9 +1,11 @@
 import express from "express";
 import Artist from "../models/Artist";
-import mongoose from "mongoose";
+import mongoose, {HydratedDocument} from "mongoose";
 import {imagesUpload} from "../multer";
 import auth, {RequestWitUser} from "../middleware/auth";
 import authAnonymous from "../middleware/authAnonymous";
+import permit from "../middleware/permit";
+import {ArtistMutation} from "../types";
 
 
 const artistRouter = express.Router();
@@ -45,6 +47,29 @@ artistRouter.post('/', auth, imagesUpload.single('photo'), async (req, res, next
     } else {
       return next(e);
     }
+  }
+});
+
+artistRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
+  try {
+    const artist: HydratedDocument<ArtistMutation> | null = await Artist.findOne({_id: req.params.id});
+
+    if (!artist) {
+      return res.sendStatus(404);
+    }
+
+    artist.isPublished ? artist.isPublished = !req.body.isPublished : artist.isPublished = req.body.isPublished;
+
+    await artist.save();
+    return res.send(artist.isPublished);
+  } catch (e) {
+
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    } else {
+      return next(e);
+    }
+
   }
 });
 

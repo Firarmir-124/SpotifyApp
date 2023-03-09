@@ -1,8 +1,10 @@
 import express from "express";
 import Track from "../models/Track";
-import mongoose from "mongoose";
+import mongoose, {HydratedDocument} from "mongoose";
 import auth, {RequestWitUser} from "../middleware/auth";
 import authAnonymous from "../middleware/authAnonymous";
+import permit from "../middleware/permit";
+import {AlbumMutation} from "../types";
 
 const tracksRouter = express.Router();
 
@@ -44,6 +46,29 @@ tracksRouter.post('/', auth,  async (req, res, next) => {
     } else {
       return next(e);
     }
+  }
+});
+
+tracksRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
+  try {
+    const track: HydratedDocument<AlbumMutation> | null = await Track.findOne({_id: req.params.id});
+
+    if (!track) {
+      return res.sendStatus(404);
+    }
+
+    track.isPublished ? track.isPublished = !req.body.isPublished : track.isPublished = req.body.isPublished;
+
+    await track.save();
+    return res.send(track.isPublished);
+  } catch (e) {
+
+    if (e instanceof mongoose.Error.ValidationError) {
+      return res.status(400).send(e);
+    } else {
+      return next(e);
+    }
+
   }
 });
 
