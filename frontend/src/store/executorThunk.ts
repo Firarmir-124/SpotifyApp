@@ -1,6 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {Album, Albums, Artists, Tracks, TracksHistory} from "../types";
+import {Album, Albums, ArtistMutation, Artists, Tracks, TracksHistory, ValidationError} from "../types";
 import axiosApi from "../axiosApi";
+import {isAxiosError} from "axios";
 
 export const fetchExecutor = createAsyncThunk<Artists[]>(
   'executor/fetch',
@@ -66,5 +67,29 @@ export const trackHistoryGet = createAsyncThunk<TracksHistory[]>(
   async () => {
     const response = await axiosApi.get('/track_history');
     return response.data
+  }
+);
+
+export const createExecutor = createAsyncThunk<void, ArtistMutation, {rejectValue: ValidationError}>(
+  'executor/create',
+  async (artistMutation, {rejectWithValue}) => {
+    const formDate = new FormData();
+    const keys = Object.keys(artistMutation) as (keyof ArtistMutation)[];
+
+    keys.forEach((key) => {
+      const value = artistMutation[key];
+
+      if (value !== null) {
+        formDate.append(key, value.toString());
+      }
+    });
+
+    try {
+      await axiosApi.post('/artists', formDate);
+    } catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data as ValidationError);
+      }
+    }
   }
 );
