@@ -13,7 +13,7 @@ usersRouter.post('/', async (req, res, next) => {
 
     user.generateToken();
     await user.save();
-    return res.send(user);
+    return res.send({message: 'Registered successfully !', user});
   } catch (e) {
     if (e instanceof Error.ValidationError) {
       return res.status(400).send(e);
@@ -22,6 +22,7 @@ usersRouter.post('/', async (req, res, next) => {
     }
   }
 });
+
 
 usersRouter.post('/sessions', async (req, res, next) => {
   const user = await User.findOne({username: req.body.username});

@@ -1,6 +1,6 @@
-import {HydratedDocument, Model, model, Schema} from "mongoose";
-import bcrypt from 'bcrypt';
+import {HydratedDocument, model, Model, Schema} from "mongoose";
 import {IUser} from "../types";
+import bcrypt from 'bcrypt';
 import {randomUUID} from "crypto";
 
 const SALT_WORK_FACTORY = 10;
@@ -43,12 +43,14 @@ UserSchema.pre('save', async function (next) {
 
   const salt = await bcrypt.genSalt(SALT_WORK_FACTORY);
   this.password = await bcrypt.hash(this.password, salt);
+
+  next();
 });
 
 UserSchema.set('toJSON', {
-  transform: (doc, ret, options) => {
-    delete ret.password
-    return ret
+  transform: (doc, ret) => {
+    delete ret.password;
+    return ret;
   }
 });
 
@@ -60,6 +62,6 @@ UserSchema.methods.generateToken = function () {
   this.token = randomUUID();
 };
 
-const User = model('User', UserSchema);
+const User = model<IUser, UserModel>('User', UserSchema);
 
-export default User
+export default User;
