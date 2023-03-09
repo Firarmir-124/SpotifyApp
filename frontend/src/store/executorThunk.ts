@@ -1,7 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {Album, Albums, Artists, Tracks, TracksHistory} from "../types";
 import axiosApi from "../axiosApi";
-import {RootState} from "../app/store";
 
 export const fetchExecutor = createAsyncThunk<Artists[]>(
   'executor/fetch',
@@ -55,33 +54,17 @@ export const fetchTracks = createAsyncThunk<Tracks[], string>(
   }
 );
 
-export const trackHistoryPost = createAsyncThunk<void, string, {state: RootState}>(
+export const trackHistoryPost = createAsyncThunk<void, string>(
   'trackHistory/post',
-  async (id, thunkAPI) => {
-    const user = thunkAPI.getState().users.user;
-
-    if (user) {
-      await axiosApi.post(
-        '/track_history',
-        {track: id},
-        {headers: {'Authorization': user.token}}
-      );
-    } else {
-      throw new Error('Not found');
-    }
+  async (id) => {
+    await axiosApi.post('/track_history', {track: id});
   }
 );
 
-export const trackHistoryGet = createAsyncThunk<TracksHistory[], undefined, {state: RootState}>(
+export const trackHistoryGet = createAsyncThunk<TracksHistory[]>(
   'trackHistory/get',
-  async (_, thunkAPI) => {
-    const user = thunkAPI.getState().users.user;
-
-    if (user) {
-      const response = await axiosApi.get('/track_history', {headers: {'Authorization': user.token}});
-      return response.data
-    } else {
-      throw new Error('Not found');
-    }
+  async () => {
+    const response = await axiosApi.get('/track_history');
+    return response.data
   }
 );
