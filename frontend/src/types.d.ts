@@ -2,7 +2,6 @@ export interface ArtistMutation {
   title: string;
   photo: string | null;
   information: string | null;
-  isPublished: boolean;
 }
 
 export interface AlbumMutation {
@@ -10,7 +9,6 @@ export interface AlbumMutation {
   executor: string;
   date: string;
   image: string | null;
-  isPublished: boolean;
 }
 
 export interface TrackMutation {
@@ -19,26 +17,28 @@ export interface TrackMutation {
   duration: string;
   youtubeLink: string;
   trackNumber: number;
+}
+
+export interface Album extends AlbumMutation{
+  _id: string;
+  executor: AlbumMutation;
   isPublished: boolean;
 }
 
 export interface Albums {
   _id: string;
-  album: AlbumMutation
+  album: Album
   counter: number
-}
-
-export interface Album extends AlbumMutation{
-  _id: string;
-  executor: AlbumMutation
 }
 
 export interface Artists extends ArtistMutation{
   _id: string;
+  isPublished: boolean;
 }
 
 export interface Tracks extends TrackMutation{
   _id: string;
+  isPublished: boolean;
 }
 
 export interface RegisterMutation {

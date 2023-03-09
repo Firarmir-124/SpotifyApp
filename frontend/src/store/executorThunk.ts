@@ -89,8 +89,9 @@ export const createExecutor = createAsyncThunk<void, ArtistMutation, {rejectValu
     keys.forEach((key) => {
       const value = artistMutation[key];
 
+
       if (value !== null) {
-        formDate.append(key, value.toString());
+        formDate.append(key, value);
       }
     });
 
