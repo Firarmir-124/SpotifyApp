@@ -24,6 +24,7 @@ export interface TrackMutation {
 export interface IUser {
   username: string;
   password: string;
+  role: string;
   token: string
 }
 
