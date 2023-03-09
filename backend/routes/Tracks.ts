@@ -1,11 +1,8 @@
 import express from "express";
 import Track from "../models/Track";
-import {TrackMutation} from "../types";
 import mongoose from "mongoose";
 
-
 const tracksRouter = express.Router();
-let counter = 1;
 
 tracksRouter.get('/', async (req, res) => {
   const query = req.query.album as string;
@@ -25,18 +22,16 @@ tracksRouter.get('/', async (req, res) => {
 });
 
 tracksRouter.post('/', async (req, res, next) => {
-  const newTrack:TrackMutation = {
-    title: req.body.title,
-    album: req.body.album,
-    duration: req.body.duration,
-    youtubeLink: req.body.youtubeLink.replace(/https:\/\/youtu.be\//gmi, ''),
-    trackNumber: counter++,
-  };
-
-  const track = new Track(newTrack);
-
   try {
-    await track.save();
+     const track = await Track.create({
+      title: req.body.title,
+      album: req.body.album,
+      duration: req.body.duration,
+      youtubeLink: req.body.youtubeLink.replace(/https:\/\/youtu.be\//gmi, ''),
+      trackNumber: req.body.trackNumber,
+      isPublished: req.body.isPublished
+    });
+
     return res.send(track);
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {

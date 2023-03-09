@@ -1,8 +1,8 @@
 import express from "express";
 import Artist from "../models/Artist";
-import {ArtistMutation} from "../types";
 import mongoose from "mongoose";
 import {imagesUpload} from "../multer";
+
 
 const artistRouter = express.Router();
 
@@ -25,16 +25,14 @@ artistRouter.get('/:id', async (req, res) => {
 });
 
 artistRouter.post('/', imagesUpload.single('photo'), async (req, res, next) => {
-  const newArtist:ArtistMutation = {
-    title: req.body.title,
-    photo: req.file ? req.file.filename : null,
-    information: req.body.information,
-  };
-
-  const artist = new Artist(newArtist);
-
   try {
-    await artist.save();
+    const artist = await Artist.create({
+      title: req.body.title,
+      photo: req.file ? req.file.filename : null,
+      information: req.body.information,
+      isPublished: req.body.isPublished
+    });
+
     return res.send(artist);
   }catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
