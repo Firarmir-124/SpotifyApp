@@ -3,7 +3,6 @@ export interface ArtistMutation {
   photo: string | null;
   information: string | null;
   isPublished: boolean;
-  user: string;
 }
 
 export interface AlbumMutation {

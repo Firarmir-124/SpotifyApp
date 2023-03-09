@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from "../../components/Layout/Layout";
 import {Chip, Container, Paper} from "@mui/material";
+import FormExecutor from "../../components/FormExecutor/FormExecutor";
 
 const CreateExecutor = () => {
   return (
@@ -14,7 +15,7 @@ const CreateExecutor = () => {
         />
 
         <Paper elevation={3} sx={{minHeight: '80vh', p: 1}}>
-          Создать исполнителя !
+          <FormExecutor/>
         </Paper>
       </Container>
     </Layout>
