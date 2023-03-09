@@ -5,6 +5,8 @@ import {Albums} from "../../types";
 import noImage from "../../assets/images/no-image.png";
 import {linksStyle} from "../Layout/Layout";
 import {apiURl} from "../../constans";
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
 
 interface Props {
   album: Albums
@@ -12,9 +14,14 @@ interface Props {
 
 const CartAlbum:React.FC<Props> = ({album}) => {
   let image = noImage;
+  let published = <UnpublishedIcon style={{color: 'red'}}/>
 
   if (album.album.image) {
     image = apiURl + '/' + album.album.image;
+  }
+
+  if (!album.album.isPublished) {
+    published = <PublishedWithChangesIcon color='primary'/>
   }
 
   return (
@@ -27,15 +34,23 @@ const CartAlbum:React.FC<Props> = ({album}) => {
             title="green iguana"
           />
           <CardContent>
-            <Typography component="p">
-              {album.album.title}
-            </Typography>
-            <Typography component="p">
-              {album.album.date}
-            </Typography>
-            <Typography component="p">
-              {album.counter}
-            </Typography>
+            <Grid container justifyContent='space-between' alignItems='center'>
+              <Grid item>
+                <Typography component="p">
+                  Название: {album.album.title}
+                </Typography>
+                <Typography component="p">
+                  Год: {album.album.date}
+                </Typography>
+                <Typography component="p">
+                  Колличество треков: {album.counter}
+                </Typography>
+              </Grid>
+
+              <Grid item>
+                {published}
+              </Grid>
+            </Grid>
           </CardContent>
         </Link>
       </Card>

@@ -6,6 +6,8 @@ import music from '../../assets/images/music.png';
 import {useAppSelector} from "../../app/hooks";
 import {selectUser} from "../../store/userSlice";
 import {useNavigate} from "react-router-dom";
+import UnpublishedIcon from "@mui/icons-material/Unpublished";
+import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 
 interface Props {
   track: Tracks;
@@ -15,6 +17,11 @@ interface Props {
 const CartTrack:React.FC<Props> = ({track, trackHistory}) => {
   const user = useAppSelector(selectUser);
   const navigate = useNavigate();
+  let published = <UnpublishedIcon style={{color: 'red'}}/>
+
+  if (!track.isPublished) {
+    published = <PublishedWithChangesIcon color='primary'/>
+  }
 
   return (
     <Card
@@ -28,11 +35,12 @@ const CartTrack:React.FC<Props> = ({track, trackHistory}) => {
       }}
       elevation={4}
     >
-      <Box component='div'>
+      <Box component='div' sx={{display: 'flex', alignItems: 'center'}}>
         <Chip variant='outlined' sx={{ml: 1}} size='small' label={track.trackNumber} color="primary" />
         <IconButton onClick={user ? trackHistory : () => navigate('/login')} aria-label="play/pause">
           <PlayArrowIcon sx={{ height: 40, width: 40 }} />
         </IconButton>
+        {published}
       </Box>
       <CardContent sx={{display: 'flex',  justifyContent: 'space-between', alignItems: 'center', width: '50%'}}>
         <Typography component="div" variant="h6">

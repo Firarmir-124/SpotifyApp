@@ -5,6 +5,8 @@ import {Artists} from "../../types";
 import noImage from '../../assets/images/no-image.png';
 import {linksStyle} from "../Layout/Layout";
 import {apiURl} from "../../constans";
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
 
 interface Props {
   executor: Artists
@@ -12,9 +14,14 @@ interface Props {
 
 const CartExecutor:React.FC<Props> = ({executor}) => {
   let image = noImage;
+  let published = <UnpublishedIcon style={{color: 'red'}}/>
 
   if (executor.photo) {
     image = apiURl + '/' + executor.photo
+  }
+
+  if (executor.isPublished) {
+    published = <PublishedWithChangesIcon color='primary'/>
   }
 
   return (
@@ -28,9 +35,19 @@ const CartExecutor:React.FC<Props> = ({executor}) => {
               title="green iguana"
             />
             <CardContent>
-              <Typography gutterBottom variant="h4" component="h3" align="center">
-                {executor.title}
-              </Typography>
+              <Grid container justifyContent='space-between' alignItems='center'>
+                <Grid item>
+                  <Typography gutterBottom variant="h5" component="h3" align="center">
+                    {executor.title}
+                  </Typography>
+                </Grid>
+
+                <Grid item>
+                  <Typography gutterBottom variant="h5" component="h3" align="center">
+                    {published}
+                  </Typography>
+                </Grid>
+              </Grid>
             </CardContent>
           </Link>
         </Card>
