@@ -115,7 +115,7 @@ export const createAlbum = createAsyncThunk<void, AlbumMutation, {rejectValue: V
       const value = albumMutation[key];
 
       if (value !== null) {
-        formDate.append(key, value.toString());
+        formDate.append(key, value);
       }
     });
 
