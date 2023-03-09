@@ -27,6 +27,11 @@ const TrackSchema = new Schema({
   trackNumber: {
     type: Number,
     required: true,
+  },
+  isPublished: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
 
