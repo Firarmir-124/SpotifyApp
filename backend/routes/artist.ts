@@ -2,6 +2,7 @@ import express from "express";
 import Artist from "../models/Artist";
 import mongoose from "mongoose";
 import {imagesUpload} from "../multer";
+import auth, {RequestWitUser} from "../middleware/auth";
 
 
 const artistRouter = express.Router();
@@ -24,13 +25,16 @@ artistRouter.get('/:id', async (req, res) => {
   }
 });
 
-artistRouter.post('/', imagesUpload.single('photo'), async (req, res, next) => {
+artistRouter.post('/', auth, imagesUpload.single('photo'), async (req, res, next) => {
+  const user = (req as RequestWitUser).user;
+
   try {
     const artist = await Artist.create({
       title: req.body.title,
       photo: req.file ? req.file.filename : null,
       information: req.body.information,
-      isPublished: req.body.isPublished
+      isPublished: req.body.isPublished,
+      user: user._id
     });
 
     return res.send(artist);

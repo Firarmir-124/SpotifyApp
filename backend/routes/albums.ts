@@ -4,6 +4,7 @@ import {AlbumType, newAlbums, TrackType} from "../types";
 import mongoose from "mongoose";
 import {imagesUpload} from "../multer";
 import Track from "../models/Track";
+import auth, {RequestWitUser} from "../middleware/auth";
 
 const convertAlbum = (albums:AlbumType[], tracks:TrackType[]) => {
   const newAlbums:newAlbums[] = [];
@@ -62,14 +63,17 @@ albumsRouter.get('/:id', async (req, res) => {
   }
 });
 
-albumsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
+albumsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
+  const user = (req as RequestWitUser).user;
+
   try {
     const album = await Album.create({
       title: req.body.title,
       executor: req.body.executor,
       date: req.body.date,
       image: req.file ? req.file.filename : null,
-      isPublished: req.body.isPublished
+      isPublished: req.body.isPublished,
+      user: user._id
     });
 
     return res.send(album);

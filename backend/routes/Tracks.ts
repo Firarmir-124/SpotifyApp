@@ -1,6 +1,7 @@
 import express from "express";
 import Track from "../models/Track";
 import mongoose from "mongoose";
+import auth, {RequestWitUser} from "../middleware/auth";
 
 const tracksRouter = express.Router();
 
@@ -21,7 +22,9 @@ tracksRouter.get('/', async (req, res) => {
   }
 });
 
-tracksRouter.post('/', async (req, res, next) => {
+tracksRouter.post('/', auth,  async (req, res, next) => {
+  const user = (req as RequestWitUser).user;
+
   try {
      const track = await Track.create({
       title: req.body.title,
@@ -29,7 +32,8 @@ tracksRouter.post('/', async (req, res, next) => {
       duration: req.body.duration,
       youtubeLink: req.body.youtubeLink.replace(/https:\/\/youtu.be\//gmi, ''),
       trackNumber: req.body.trackNumber,
-      isPublished: req.body.isPublished
+      isPublished: req.body.isPublished,
+      user: user._id
     });
 
     return res.send(track);
