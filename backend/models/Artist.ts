@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, {Types} from "mongoose";
+import User from "./User";
 
 const Schema = mongoose.Schema;
 
@@ -13,6 +14,14 @@ const ArtiSchema = new Schema({
     type: Boolean,
     required: true,
     default: false
+  },
+  user: {
+    type: String,
+    ref: Schema.Types.ObjectId,
+    validate: {
+      validator: (value: Types.ObjectId) => User.findById(value),
+      message: 'User does not exist'
+    }
   }
 });
 

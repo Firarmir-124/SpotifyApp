@@ -1,5 +1,6 @@
 import mongoose, {Types} from "mongoose";
 import Artist from "./Artist";
+import User from "./User";
 
 const Schema = mongoose.Schema;
 
@@ -26,6 +27,14 @@ const AlbumSchema = new Schema({
     type: Boolean,
     required: true,
     default: false
+  },
+  user: {
+    type: String,
+    ref: Schema.Types.ObjectId,
+    validate: {
+      validator: (value: Types.ObjectId) => User.findById(value),
+      message: 'User does not exist'
+    }
   }
 });
 
