@@ -3,8 +3,8 @@ import {Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {Albums} from "../../types";
 import noImage from "../../assets/images/no-image.png";
-import {config} from "../../config";
 import {linksStyle} from "../Layout/Layout";
+import {apiURl} from "../../constans";
 
 interface Props {
   album: Albums
@@ -14,7 +14,7 @@ const CartAlbum:React.FC<Props> = ({album}) => {
   let image = noImage;
 
   if (album.album.image) {
-    image = config + '/' + album.album.image;
+    image = apiURl + '/' + album.album.image;
   }
 
   return (

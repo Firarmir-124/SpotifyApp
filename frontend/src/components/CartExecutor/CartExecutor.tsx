@@ -3,8 +3,8 @@ import {Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {Artists} from "../../types";
 import noImage from '../../assets/images/no-image.png';
-import {config} from "../../config";
 import {linksStyle} from "../Layout/Layout";
+import {apiURl} from "../../constans";
 
 interface Props {
   executor: Artists
@@ -14,7 +14,7 @@ const CartExecutor:React.FC<Props> = ({executor}) => {
   let image = noImage;
 
   if (executor.photo) {
-    image = config + '/' + executor.photo
+    image = apiURl + '/' + executor.photo
   }
 
   return (
