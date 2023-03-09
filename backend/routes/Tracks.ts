@@ -10,6 +10,7 @@ const tracksRouter = express.Router();
 
 tracksRouter.get('/', authAnonymous, async (req, res) => {
   const query = req.query.album as string;
+  const query2 = req.query.user as string;
   const user = (req as RequestWitUser).user;
 
   try {
@@ -18,12 +19,15 @@ tracksRouter.get('/', authAnonymous, async (req, res) => {
       const tracksId = user ? (
         user.role === 'admin' ? (
           await Track.find({album: query}).sort([['trackNumber', +1]])
-        ) : await Track.find({album: query, user: user.id}).sort([['trackNumber', +1]])
+        ) : await Track.find({album: query}).sort([['trackNumber', +1]])
       ) : (
         await Track.find({album: query, isPublished: true}).sort([['trackNumber', +1]])
       );
 
       return res.send(tracksId);
+    } else if (req.query.user !== undefined) {
+      const tracksUser = await Track.find({user: query2, isPublished: false});
+      return res.send(tracksUser);
     } else {
       const tracks = user ? (
         user.role === 'admin' ? (
@@ -106,7 +110,7 @@ tracksRouter.delete('/:id', authAnonymous, async (req, res) => {
       if (track) {
         if (track.isPublished === false) {
 
-          if (track.user !== user._id.toString()) {
+          if (track.user._id.toString() !== user._id.toString()) {
             return res.status(403).send({error: 'Данная сущность чужая, удалить нельзя !'});
           } else {
             await Track.deleteOne({_id: id});

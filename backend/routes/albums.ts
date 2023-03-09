@@ -22,7 +22,7 @@ const convertAlbum = (albums:AlbumType[], tracks:TrackType[]) => {
         date: item.date,
         image: item.image || null,
         isPublished: item.isPublished,
-        user: item.user
+        user: item.user._id.toString()
       },
       counter: filter.length
     };
@@ -37,6 +37,7 @@ const albumsRouter = express.Router();
 
 albumsRouter.get('/', authAnonymous, async (req, res) => {
   const query = req.query.artist as string;
+  const query2 = req.query.user as string;
   const user = (req as RequestWitUser).user;
 
   try {
@@ -44,7 +45,7 @@ albumsRouter.get('/', authAnonymous, async (req, res) => {
       const albums = user ? (
         user.role === 'admin' ? (
           await Album.find({executor: query}).sort([['date', -1]])
-        ) : await Album.find({executor: query, user: user.id}).sort([['date', -1]])
+        ) : await Album.find({executor: query, isPublished: true}).sort([['date', -1]])
       ) : (
         await Album.find({executor: query, isPublished: true}).sort([['date', -1]])
       );
@@ -53,6 +54,9 @@ albumsRouter.get('/', authAnonymous, async (req, res) => {
       const newAlbums = convertAlbum(albums, tracks);
 
       return res.send(newAlbums);
+    } else if (req.query.user !== undefined) {
+      const albumsUser = await Album.find({user: query2, isPublished: false});
+      return res.send(albumsUser);
     } else {
       const albums = user ? (
         user.role === 'admin' ? (
@@ -145,7 +149,7 @@ albumsRouter.delete('/:id', authAnonymous, async (req, res) => {
       if (album) {
         if (album.isPublished === false) {
 
-          if (album.user !== user._id.toString()) {
+          if (album.user._id.toString() !== user._id.toString()) {
             return res.status(403).send({error: 'Данная сущность чужая, удалить нельзя !'});
           } else {
             await Album.deleteOne({_id: id});

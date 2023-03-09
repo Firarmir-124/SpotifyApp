@@ -1,10 +1,11 @@
 import mongoose, {Types} from "mongoose";
 import Album from "./Album";
 import User from "./User";
+import {TrackMutation} from "../types";
 
 const Schema = mongoose.Schema;
 
-const TrackSchema = new Schema({
+const TrackSchema = new Schema<TrackMutation>({
   title: {
     type: String,
     required: true,
@@ -35,8 +36,9 @@ const TrackSchema = new Schema({
     default: false
   },
   user: {
-    type: String,
-    ref: Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
     validate: {
       validator: (value: Types.ObjectId) => User.findById(value),
       message: 'User does not exist'

@@ -16,8 +16,9 @@ const ArtiSchema = new Schema({
     default: false
   },
   user: {
-    type: String,
-    ref: Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
     validate: {
       validator: (value: Types.ObjectId) => User.findById(value),
       message: 'User does not exist'

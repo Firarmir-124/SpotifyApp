@@ -12,15 +12,21 @@ const artistRouter = express.Router();
 
 artistRouter.get('/', authAnonymous, async (req, res) => {
   const user = (req as RequestWitUser).user;
+  const query = req.query.user as string;
 
   try {
-    const artists = user ? (
-      user.role === 'admin' ? await Artist.find() : await Artist.find({user: user.id})
-    ) : (
-      await Artist.find({isPublished: true})
-    );
+    if (req.query.user !== undefined) {
+      const artistsUser = await Artist.find({user: query, isPublished: false});
+      return res.send(artistsUser);
+    } else {
+      const artists = user ? (
+        user.role === 'admin' ? await Artist.find() : await Artist.find({isPublished: true})
+      ) : (
+        await Artist.find({isPublished: true})
+      );
 
-    return res.send(artists);
+      return res.send(artists);
+    }
   }catch {
     return res.sendStatus(500);
   }
@@ -97,8 +103,7 @@ artistRouter.delete('/:id', authAnonymous, async (req, res) => {
     } else if (user.role === 'user') {
       if (artist) {
         if (artist.isPublished === false) {
-
-          if (artist.user !== user._id.toString()) {
+          if (artist.user._id.toString() !== user._id.toString()) {
             return res.status(403).send({error: 'Данная сущность чужая, удалить нельзя !'});
           } else {
             await Artist.deleteOne({_id: id});

@@ -19,12 +19,12 @@ export interface AlbumMutation {
 
 export interface TrackMutation {
   title: string;
-  album: string;
+  album: mongoose.Types.ObjectId;
   duration: string;
   youtubeLink: string,
   trackNumber: number;
   isPublished: boolean;
-  user: string;
+  user: mongoose.Types.ObjectId;
 }
 
 export interface IUser {
@@ -61,7 +61,7 @@ export interface AlbumType {
   executor: mongoose.Types.ObjectId;
   image?: string | undefined;
   isPublished: boolean;
-  user?: string | undefined;
+  user: mongoose.Types.ObjectId;
 }
 
 export interface TrackType {
