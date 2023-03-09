@@ -6,6 +6,7 @@ import Tracks from "./containers/Tracks/Tracks";
 import Register from "./containers/Register/Register";
 import Login from "./containers/Login/Login";
 import TrackHistory from "./containers/TrackHistory/TrackHistory";
+import CreateExecutor from "./containers/CreateExecutor/CreateExecutor";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path='executor/:id' element={<Albums/>}/>
       <Route path='albums/:id' element={<Tracks/>}/>
       <Route path='track_history' element={<TrackHistory/>}/>
+      <Route path='create_executor' element={<CreateExecutor/>}/>
       <Route path='register' element={<Register/>}/>
       <Route path='login' element={<Login/>}/>
     </Routes>
