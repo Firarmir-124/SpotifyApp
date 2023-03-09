@@ -11,7 +11,6 @@ export interface AlbumMutation {
   date: string;
   image: string | null;
   isPublished: boolean;
-  user: string;
 }
 
 export interface TrackMutation {
@@ -21,7 +20,6 @@ export interface TrackMutation {
   youtubeLink: string;
   trackNumber: number;
   isPublished: boolean;
-  user: string;
 }
 
 export interface Albums {
