@@ -3,14 +3,22 @@ import Layout from "../../components/Layout/Layout";
 import {Chip, Container, Paper} from "@mui/material";
 import FormTrack from "../../components/FormTrack/FormTrack";
 import {useAppDispatch} from "../../app/hooks";
-import {fetchExecutor} from "../../store/executorThunk";
+import {createTrack, fetchExecutor} from "../../store/executorThunk";
+import {TrackMutation} from "../../types";
+import {useNavigate} from "react-router-dom";
 
 const CreateTrack = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchExecutor());
   }, [dispatch]);
+
+  const onSubmit = async (track: TrackMutation) => {
+    await dispatch(createTrack(track)).unwrap();
+    navigate('/');
+  };
 
   return (
     <Layout>
@@ -23,7 +31,7 @@ const CreateTrack = () => {
         />
 
         <Paper elevation={3} sx={{minHeight: '80vh', p: 1}}>
-          <FormTrack/>
+          <FormTrack onSubmit={onSubmit}/>
         </Paper>
       </Container>
     </Layout>

@@ -2,16 +2,28 @@ import React, {useEffect, useState} from 'react';
 import {Alert, Box, Button, CircularProgress, Grid, InputAdornment, MenuItem, Paper, TextField} from "@mui/material";
 import {TrackMutation} from "../../types";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {selectAlbumLoading, selectAlbums, selectArtistLoading, selectExecutors} from "../../store/executorSlice";
+import {
+  selectAlbumLoading,
+  selectAlbums,
+  selectArtistLoading,
+  selectCreateTrackLoading,
+  selectExecutors, selectTrackError
+} from "../../store/executorSlice";
 import {fetchAlbums} from "../../store/executorThunk";
 import {Link} from "react-router-dom";
 import {linksStyle} from "../Layout/Layout";
 
-const FormTrack = () => {
+interface Props {
+  onSubmit: (track: TrackMutation) => void;
+}
+
+const FormTrack:React.FC<Props> = ({onSubmit}) => {
   const artist = useAppSelector(selectExecutors);
   const loadingArtist = useAppSelector(selectArtistLoading);
   const albums = useAppSelector(selectAlbums);
   const loadingAlbum = useAppSelector(selectAlbumLoading);
+  const loadingCreate = useAppSelector(selectCreateTrackLoading);
+  const error = useAppSelector(selectTrackError);
   const dispatch = useAppDispatch();
   const [select, setSelect] = useState('');
   const [name, setName] = useState<TrackMutation>({
@@ -27,7 +39,18 @@ const FormTrack = () => {
     setName(prev => ({...prev, [name]: value}));
   };
 
-  console.log(name)
+  const onFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit({...name});
+  };
+
+  const getFieldError = (fileName: string) => {
+    try {
+      return  error?.errors[fileName].message;
+    } catch (e) {
+
+    }
+  };
 
   useEffect(() => {
     if (select) {
@@ -37,17 +60,19 @@ const FormTrack = () => {
 
   return (
     <Paper elevation={3} style={{ padding: 30 }}>
-      <Box component='form'>
+      <Box component='form' onSubmit={onFormSubmit}>
         <Grid spacing={3} container>
           <Grid xs={12} item>
             <TextField
               required
               variant="outlined"
-              placeholder="Имя исполнителя..."
+              placeholder="Название трека..."
               name='title'
               fullWidth
               value={name.title}
               onChange={onChangeTrack}
+              error={Boolean(getFieldError('title'))}
+              helperText={getFieldError('title')}
             />
           </Grid>
           <Grid xs={12} item>
@@ -55,7 +80,6 @@ const FormTrack = () => {
               select
               label='Исполнитель'
               name='executor'
-              required
               sx={{width: '200px'}}
               value={select}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSelect(e.target.value)}
@@ -84,6 +108,8 @@ const FormTrack = () => {
               value={name.album}
               onChange={onChangeTrack}
               defaultValue="album"
+              error={Boolean(getFieldError('album'))}
+              helperText={getFieldError('album')}
             >
               <MenuItem value="" disabled>Please select a category</MenuItem>
               {
@@ -107,6 +133,8 @@ const FormTrack = () => {
               name='duration'
               value={name.duration}
               onChange={onChangeTrack}
+              error={Boolean(getFieldError('duration'))}
+              helperText={getFieldError('duration')}
             />
           </Grid>
           <Grid xs={12} item>
@@ -118,6 +146,8 @@ const FormTrack = () => {
               fullWidth
               value={name.youtubeLink}
               onChange={onChangeTrack}
+              error={Boolean(getFieldError('youtubeLink'))}
+              helperText={getFieldError('youtubeLink')}
             />
           </Grid>
           <Grid xs={12} item>
@@ -134,13 +164,15 @@ const FormTrack = () => {
               }}
               value={name.trackNumber}
               onChange={onChangeTrack}
+              error={Boolean(getFieldError('trackNumber'))}
+              helperText={getFieldError('trackNumber')}
             />
           </Grid>
         </Grid>
 
         <Box sx={{mt: '20px'}}>
-          <Button size="large" variant="contained" type='submit'>
-            Создать трек
+          <Button disabled={loadingCreate} size="large" variant="contained" type='submit'>
+            {!loadingCreate ? 'Создать трек' : <CircularProgress color='inherit' size={20}/>}
           </Button>
           <Link style={linksStyle} to="/">
             <Button size="large">Отмена</Button>

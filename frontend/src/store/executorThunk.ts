@@ -132,19 +132,8 @@ export const createAlbum = createAsyncThunk<void, AlbumMutation, {rejectValue: V
 export const createTrack = createAsyncThunk<void, TrackMutation, {rejectValue: ValidationError}>(
   'executor/createTrack',
   async (trackMutation, {rejectWithValue}) => {
-    const formDate = new FormData();
-    const keys = Object.keys(trackMutation) as (keyof TrackMutation)[];
-
-    keys.forEach((key) => {
-      const value = trackMutation[key];
-
-      if (value !== null) {
-        formDate.append(key, value.toString());
-      }
-    });
-
     try {
-      await axiosApi.post('/tracks', formDate);
+      await axiosApi.post('/tracks', trackMutation);
     } catch (e) {
       if (isAxiosError(e) && e.response && e.response.status === 400) {
         return rejectWithValue(e.response.data as ValidationError);
