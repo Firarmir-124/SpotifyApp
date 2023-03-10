@@ -13,6 +13,7 @@ import {selectAlbum, selectAlbumOneLoading, selectTracks, selectTracksLoading} f
 import {
   fetchAlbum,
   fetchTracks,
+  isPublishedTrack,
   removeTrack,
   trackHistoryPost
 } from "../../store/executorThunk";
@@ -42,14 +43,21 @@ const Tracks = () => {
     }
   };
 
-  useEffect(() => {
-    void getInformation();
-  }, [getInformation]);
+  const publishedTrack = async (idItem: string, published: boolean) => {
+    await dispatch(isPublishedTrack({id: idItem, published}));
+    if (id) {
+      await dispatch(fetchTracks(id));
+    }
+  };
 
   const trackHistory = async (id: string, videoId: string) => {
     await dispatch(trackHistoryPost(id));
     dispatch(getVideoId(videoId));
   };
+
+  useEffect(() => {
+    void getInformation();
+  }, [getInformation]);
 
   return (
     <Layout>
@@ -70,6 +78,7 @@ const Tracks = () => {
               tracks.length !== 0 ? (
                 tracks.map((track) => (
                   <CartTrack
+                    publishedTrack={() => publishedTrack(track._id, true)}
                     deleteTrack={() => deleteTrack(track._id)}
                     trackHistory={() => trackHistory(track._id, track.youtubeLink)}
                     key={track._id}

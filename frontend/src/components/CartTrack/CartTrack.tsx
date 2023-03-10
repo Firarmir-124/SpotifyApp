@@ -8,17 +8,19 @@ import {selectUser} from "../../store/userSlice";
 import {useNavigate} from "react-router-dom";
 import UnpublishedIcon from "@mui/icons-material/Unpublished";
 import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
-import {selectRemoveTrackLoading} from "../../store/executorSlice";
+import {selectPublishedTrack, selectRemoveTrackLoading} from "../../store/executorSlice";
 
 interface Props {
   track: Tracks;
   trackHistory: React.MouseEventHandler;
   deleteTrack: React.MouseEventHandler;
+  publishedTrack: React.MouseEventHandler;
 }
 
-const CartTrack:React.FC<Props> = ({track, trackHistory, deleteTrack}) => {
+const CartTrack:React.FC<Props> = ({track, trackHistory, deleteTrack, publishedTrack}) => {
   const user = useAppSelector(selectUser);
   const loading = useAppSelector(selectRemoveTrackLoading);
+  const loadingPublished = useAppSelector(selectPublishedTrack);
   const navigate = useNavigate();
   let published = <UnpublishedIcon style={{color: 'red'}}/>
 
@@ -51,7 +53,9 @@ const CartTrack:React.FC<Props> = ({track, trackHistory, deleteTrack}) => {
             <Button onClick={deleteTrack} disabled={loading} color='warning' variant="contained">
               {!loading ? 'Удалить' : <CircularProgress size={20}/>}
             </Button>
-          ) : <Button variant="contained">Опублиовать</Button>
+          ) : <Button onClick={publishedTrack} disabled={loadingPublished} variant="contained">
+            {!loadingPublished ? 'Опубликовать' : <CircularProgress size={20}/>}
+          </Button>
         ) : null
       }
       <CardContent sx={{display: 'flex',  justifyContent: 'space-between', alignItems: 'center', width: '50%'}}>
