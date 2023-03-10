@@ -65,7 +65,6 @@ const FormExecutor:React.FC<Props> = ({onSubmit}) => {
           </Grid>
           <Grid xs={12} item>
             <TextField
-              required
               variant="outlined"
               placeholder="Информация о исполнителя..."
               name='information'
