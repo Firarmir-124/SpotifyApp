@@ -148,3 +148,17 @@ export const removeExecutor = createAsyncThunk<void, string>(
     await axiosApi.delete('/artists/' + id);
   }
 );
+
+export const removeAlbum = createAsyncThunk<void, string>(
+  'executor/removeAlbum',
+  async (id) => {
+    await axiosApi.delete('/albums/' + id);
+  }
+);
+
+export const removeTrack = createAsyncThunk<void, string>(
+  'executor/removeTrack',
+  async (id) => {
+    await axiosApi.delete('/tracks/' + id);
+  }
+);
