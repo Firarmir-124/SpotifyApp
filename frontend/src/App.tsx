@@ -9,6 +9,7 @@ import TrackHistory from "./containers/TrackHistory/TrackHistory";
 import CreateExecutor from "./containers/CreateExecutor/CreateExecutor";
 import CreateAlbum from "./containers/CreateAlbum/CreateAlbum";
 import CreateTrack from "./containers/CreateTrack/CreateTrack";
+import {Alert} from "@mui/material";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route path='create_track' element={<CreateTrack/>}/>
       <Route path='register' element={<Register/>}/>
       <Route path='login' element={<Login/>}/>
+      <Route path='/*' element={<Alert severity='info'>Такой страницы не существует</Alert>}/>
     </Routes>
   );
 }
