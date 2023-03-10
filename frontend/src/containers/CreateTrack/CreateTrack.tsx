@@ -2,14 +2,16 @@ import React, {useEffect} from 'react';
 import Layout from "../../components/Layout/Layout";
 import {Chip, Container, Paper} from "@mui/material";
 import FormTrack from "../../components/FormTrack/FormTrack";
-import {useAppDispatch} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {createTrack, fetchExecutor} from "../../store/executorThunk";
 import {TrackMutation} from "../../types";
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
+import {selectUser} from "../../store/userSlice";
 
 const CreateTrack = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     dispatch(fetchExecutor());
@@ -19,6 +21,10 @@ const CreateTrack = () => {
     await dispatch(createTrack(track)).unwrap();
     navigate('/');
   };
+
+  if (!user) {
+    return <Navigate to='/login'/>;
+  }
 
   return (
     <Layout>
