@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Card, CardContent, CardMedia, Chip, IconButton, Typography} from "@mui/material";
+import {Box, Button, Card, CardContent, CardMedia, Chip, IconButton, Typography} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import {Tracks} from "../../types";
 import music from '../../assets/images/music.png';
@@ -42,6 +42,13 @@ const CartTrack:React.FC<Props> = ({track, trackHistory}) => {
         </IconButton>
         {published}
       </Box>
+      {
+        user && user.role === 'admin' ? (
+          track.isPublished ? (
+            <Button color='warning' variant="contained">Удалить</Button>
+          ) : <Button variant="contained">Опублиовать</Button>
+        ) : null
+      }
       <CardContent sx={{display: 'flex',  justifyContent: 'space-between', alignItems: 'center', width: '50%'}}>
         <Typography component="div" variant="h6">
           {track.title}

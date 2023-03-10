@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
+import {Button, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {Albums} from "../../types";
 import noImage from "../../assets/images/no-image.png";
@@ -7,12 +7,15 @@ import {linksStyle} from "../Layout/Layout";
 import {apiURl} from "../../constans";
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
+import {useAppSelector} from "../../app/hooks";
+import {selectUser} from "../../store/userSlice";
 
 interface Props {
   album: Albums
 }
 
 const CartAlbum:React.FC<Props> = ({album}) => {
+  const user = useAppSelector(selectUser);
   let image = noImage;
   let published = <UnpublishedIcon style={{color: 'red'}}/>
 
@@ -51,6 +54,14 @@ const CartAlbum:React.FC<Props> = ({album}) => {
                 {published}
               </Grid>
             </Grid>
+
+            {
+              user && user.role === 'admin' ? (
+                album.album.isPublished ? (
+                  <Button color='warning' variant="contained">Удалить</Button>
+                ) : <Button variant="contained">Опублиовать</Button>
+              ) : null
+            }
           </CardContent>
         </Link>
       </Card>
