@@ -15,9 +15,11 @@ const Albums = () => {
   const albums = useAppSelector(selectAlbums);
   const loadingAlbum = useAppSelector(selectAlbumLoading);
 
-  const deleteAlbum = async (id: string) => {
-    await dispatch(removeAlbum(id));
-    await dispatch(fetchAlbums(id));
+  const deleteAlbum = async (idItem: string) => {
+    await dispatch(removeAlbum(idItem));
+    if (id) {
+      await dispatch(fetchAlbums(id));
+    }
   };
 
   const getInformation = useCallback(async () => {
