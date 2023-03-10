@@ -22,7 +22,7 @@ const CartExecutor:React.FC<Props> = ({executor, deleteArtist, isPublishedArtist
   const loading = useAppSelector(selectRemoveArtistLoading);
   const loadingPublished = useAppSelector(selectPublishedArtist);
   let image = noImage;
-  let published = <UnpublishedIcon style={{color: 'red'}}/>
+  let published = <UnpublishedIcon style={{color: 'red'}}/>;
 
   if (executor.photo) {
     image = apiURl + '/' + executor.photo;

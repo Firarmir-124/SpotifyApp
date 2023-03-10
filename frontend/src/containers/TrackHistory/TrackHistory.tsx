@@ -19,7 +19,7 @@ const TrackHistory = () => {
   }, [dispatch]);
 
   if (!user) {
-    return <Navigate to='/login'/>
+    return <Navigate to='/login'/>;
   }
 
   return (

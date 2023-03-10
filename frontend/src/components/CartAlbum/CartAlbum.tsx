@@ -22,14 +22,14 @@ const CartAlbum:React.FC<Props> = ({album, deleteAlbum, publishedAlbum}) => {
   const loading = useAppSelector(selectRemoveAlbumLoading);
   const loadingPublished = useAppSelector(selectPublishedAlbum);
   let image = noImage;
-  let published = <UnpublishedIcon style={{color: 'red'}}/>
+  let published = <UnpublishedIcon style={{color: 'red'}}/>;
 
   if (album.album.image) {
     image = apiURl + '/' + album.album.image;
   }
 
   if (album.album.isPublished) {
-    published = <PublishedWithChangesIcon color='primary'/>
+    published = <PublishedWithChangesIcon color='primary'/>;
   }
 
   return (

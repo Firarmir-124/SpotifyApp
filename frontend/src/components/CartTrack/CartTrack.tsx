@@ -22,10 +22,10 @@ const CartTrack:React.FC<Props> = ({track, trackHistory, deleteTrack, publishedT
   const loading = useAppSelector(selectRemoveTrackLoading);
   const loadingPublished = useAppSelector(selectPublishedTrack);
   const navigate = useNavigate();
-  let published = <UnpublishedIcon style={{color: 'red'}}/>
+  let published = <UnpublishedIcon style={{color: 'red'}}/>;
 
   if (track.isPublished) {
-    published = <PublishedWithChangesIcon color='primary'/>
+    published = <PublishedWithChangesIcon color='primary'/>;
   }
 
   return (
