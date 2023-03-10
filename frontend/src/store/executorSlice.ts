@@ -7,7 +7,7 @@ import {
   fetchAlbums,
   fetchArtist,
   fetchExecutor,
-  fetchTracks, removeAlbum, removeExecutor, removeTrack
+  fetchTracks, isPublishedAlbum, isPublishedExecutor, isPublishedTrack, removeAlbum, removeExecutor, removeTrack
 } from "./executorThunk";
 import {RootState} from "../app/store";
 
@@ -31,6 +31,9 @@ interface executorType {
   removeArtistLoading: boolean;
   removeAlbumLoading: boolean;
   removeTrackLoading: boolean;
+  publishedArtist: boolean;
+  publishedAlbum: boolean;
+  publishedTrack: boolean;
 }
 
 const initialState:executorType = {
@@ -53,6 +56,9 @@ const initialState:executorType = {
   removeArtistLoading: false,
   removeAlbumLoading: false,
   removeTrackLoading: false,
+  publishedArtist: false,
+  publishedAlbum: false,
+  publishedTrack: false,
 };
 
 export const executorSlice = createSlice({
@@ -177,6 +183,36 @@ export const executorSlice = createSlice({
     builder.addCase(removeTrack.rejected, (state) => {
       state.removeTrackLoading = false;
     });
+
+    builder.addCase(isPublishedExecutor.pending, (state) => {
+      state.publishedArtist = true;
+    });
+    builder.addCase(isPublishedExecutor.fulfilled, (state) => {
+      state.publishedArtist = false;
+    });
+    builder.addCase(isPublishedExecutor.rejected, (state) => {
+      state.publishedArtist = false;
+    });
+
+    builder.addCase(isPublishedAlbum.pending, (state) => {
+      state.publishedAlbum = true;
+    });
+    builder.addCase(isPublishedAlbum.fulfilled, (state) => {
+      state.publishedAlbum = false;
+    });
+    builder.addCase(isPublishedAlbum.rejected, (state) => {
+      state.publishedAlbum = false;
+    });
+
+    builder.addCase(isPublishedTrack.pending, (state) => {
+      state.publishedTrack = true;
+    });
+    builder.addCase(isPublishedTrack.fulfilled, (state) => {
+      state.publishedTrack = false;
+    });
+    builder.addCase(isPublishedTrack.rejected, (state) => {
+      state.publishedTrack = false;
+    });
   }
 });
 
@@ -200,3 +236,6 @@ export const selectTrackError = (state: RootState) => state.executor.errorTrack;
 export const selectRemoveArtistLoading = (state: RootState) => state.executor.removeArtistLoading;
 export const selectRemoveAlbumLoading = (state: RootState) => state.executor.removeAlbumLoading;
 export const selectRemoveTrackLoading = (state: RootState) => state.executor.removeTrackLoading;
+export const selectPublishedArtist = (state: RootState) => state.executor.publishedArtist;
+export const selectPublishedAlbum = (state: RootState) => state.executor.publishedAlbum;
+export const selectPublishedTrack = (state: RootState) => state.executor.publishedTrack;
