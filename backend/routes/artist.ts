@@ -15,7 +15,7 @@ artistRouter.get('/', authAnonymous, async (req, res) => {
 
   try {
     const artists = user ? (
-      user.role === 'admin' ? await Artist.find() : await Artist.find({isPublished: true})
+      user.role === 'admin' ? await Artist.find() : await Artist.find({$or: [{isPublished: true}, {isPublished: false, user: user.id}]})
     ) : (
       await Artist.find({isPublished: true})
     );

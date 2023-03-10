@@ -44,7 +44,9 @@ albumsRouter.get('/', authAnonymous, async (req, res) => {
       const albums = user ? (
         user.role === 'admin' ? (
           await Album.find({executor: query}).sort([['date', -1]])
-        ) : await Album.find({executor: query, isPublished: true}).sort([['date', -1]])
+        ) : await Album.find(
+          {$or: [{executor: query, isPublished: true}, {isPublished: false, executor: query, user: user.id}]}
+        ).sort([['date', -1]])
       ) : (
         await Album.find({executor: query, isPublished: true}).sort([['date', -1]])
       );

@@ -18,7 +18,9 @@ tracksRouter.get('/', authAnonymous, async (req, res) => {
       const tracksId = user ? (
         user.role === 'admin' ? (
           await Track.find({album: query}).sort([['trackNumber', +1]])
-        ) : await Track.find({album: query}).sort([['trackNumber', +1]])
+        ) : await Track.find(
+          {$or: [{album: query, isPublished: true}, {isPublished: false, album: query, user: user.id}]}
+        ).sort([['trackNumber', +1]])
       ) : (
         await Track.find({album: query, isPublished: true}).sort([['trackNumber', +1]])
       );
