@@ -56,6 +56,12 @@ const CartTrack:React.FC<Props> = ({track, trackHistory, deleteTrack, publishedT
           ) : <Button onClick={publishedTrack} disabled={loadingPublished} variant="contained">
             {!loadingPublished ? 'Опубликовать' : <CircularProgress size={20}/>}
           </Button>
+        ) : user && user.role === 'user' ? (
+          !track.isPublished ? (
+            <Button onClick={deleteTrack} disabled={loading} color='warning' variant="contained">
+              {!loading ? 'Удалить' : <CircularProgress size={20}/>}
+            </Button>
+          ) : null
         ) : null
       }
       <CardContent sx={{display: 'flex',  justifyContent: 'space-between', alignItems: 'center', width: '50%'}}>

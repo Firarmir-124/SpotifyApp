@@ -66,6 +66,12 @@ const CartExecutor:React.FC<Props> = ({executor, deleteArtist, isPublishedArtist
                 ) : <Button onClick={isPublishedArtist} disabled={loadingPublished} variant="contained">
                     {!loadingPublished ? 'Опубликовать' : <CircularProgress size={20}/>}
                   </Button>
+              ) : user && user.role === 'user' ? (
+                !executor.isPublished ? (
+                  <Button disabled={loading} onClick={deleteArtist} color='warning' variant="contained">
+                    {!loading ? 'Удалить' : <CircularProgress size={20}/>}
+                  </Button>
+                ) : null
               ) : null
             }
           </CardContent>

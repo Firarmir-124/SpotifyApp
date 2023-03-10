@@ -71,6 +71,12 @@ const CartAlbum:React.FC<Props> = ({album, deleteAlbum, publishedAlbum}) => {
               ) : <Button onClick={publishedAlbum} disabled={loadingPublished} variant="contained">
                 {!loadingPublished ? 'Опубликовать' : <CircularProgress size={20}/>}
               </Button>
+            ) : user && user.role === 'user' ? (
+              !album.album.isPublished ? (
+                <Button disabled={loading} onClick={deleteAlbum} color='warning' variant="contained">
+                  {!loading ? 'Удалить' : <CircularProgress size={20}/>}
+                </Button>
+              ) : null
             ) : null
           }
         </CardContent>
