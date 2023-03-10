@@ -4,7 +4,7 @@ import {Alert, Chip, CircularProgress, Container, Grid, Paper} from "@mui/materi
 import {useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectAlbumLoading, selectAlbums, selectArtist, selectArtistLoading} from "../../store/executorSlice";
-import {fetchAlbums, fetchArtist} from "../../store/executorThunk";
+import {fetchAlbums, fetchArtist, removeAlbum} from "../../store/executorThunk";
 import CartAlbum from "../../components/CartAlbum/CartAlbum";
 
 const Albums = () => {
@@ -14,6 +14,11 @@ const Albums = () => {
   const loadingArtist = useAppSelector(selectArtistLoading);
   const albums = useAppSelector(selectAlbums);
   const loadingAlbum = useAppSelector(selectAlbumLoading);
+
+  const deleteAlbum = async (id: string) => {
+    await dispatch(removeAlbum(id));
+    await dispatch(fetchAlbums(id));
+  };
 
   const getInformation = useCallback(async () => {
     if (id) {
@@ -45,7 +50,7 @@ const Albums = () => {
               !loadingAlbum ? (
                 albums.length !== 0 ? (
                   albums.map((album) => (
-                    <CartAlbum key={album._id} album={album}/>
+                    <CartAlbum deleteAlbum={() => deleteAlbum(album._id)} key={album._id} album={album}/>
                   ))
                 ) : <Grid item ><Alert severity="info">У исполнителя нет альбомов !</Alert></Grid>
               ) : <Grid item><CircularProgress/></Grid>

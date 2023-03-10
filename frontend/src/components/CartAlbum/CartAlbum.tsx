@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
+import {Button, Card, CardContent, CardMedia, CircularProgress, Grid, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {Albums} from "../../types";
 import noImage from "../../assets/images/no-image.png";
@@ -9,13 +9,16 @@ import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import {useAppSelector} from "../../app/hooks";
 import {selectUser} from "../../store/userSlice";
+import {selectRemoveAlbumLoading} from "../../store/executorSlice";
 
 interface Props {
-  album: Albums
+  album: Albums;
+  deleteAlbum: React.MouseEventHandler;
 }
 
-const CartAlbum:React.FC<Props> = ({album}) => {
+const CartAlbum:React.FC<Props> = ({album, deleteAlbum}) => {
   const user = useAppSelector(selectUser);
+  const loading = useAppSelector(selectRemoveAlbumLoading);
   let image = noImage;
   let published = <UnpublishedIcon style={{color: 'red'}}/>
 
@@ -30,40 +33,43 @@ const CartAlbum:React.FC<Props> = ({album}) => {
   return (
     <Grid item xs={2} sm={4} md={4}>
       <Card variant="outlined" sx={{ maxWidth: 400 }}>
-        <Link style={linksStyle} to={'/albums/' + album._id}>
-          <CardMedia
-            sx={{ height: 200 }}
-            image={image}
-            title="green iguana"
-          />
-          <CardContent>
-            <Grid container justifyContent='space-between' alignItems='center'>
-              <Grid item>
-                <Typography component="p">
-                  Название: {album.album.title}
-                </Typography>
-                <Typography component="p">
-                  Год: {album.album.date}
-                </Typography>
-                <Typography component="p">
-                  Колличество треков: {album.counter}
-                </Typography>
-              </Grid>
-
-              <Grid item>
-                {published}
-              </Grid>
+        <CardMedia
+          component={Link}
+          style={linksStyle}
+          to={'/albums/' + album._id}
+          sx={{ height: 200 }}
+          image={image}
+          title="green iguana"
+        />
+        <CardContent>
+          <Grid container justifyContent='space-between' alignItems='center'>
+            <Grid item>
+              <Typography component="p">
+                Название: {album.album.title}
+              </Typography>
+              <Typography component="p">
+                Год: {album.album.date}
+              </Typography>
+              <Typography component="p">
+                Колличество треков: {album.counter}
+              </Typography>
             </Grid>
 
-            {
-              user && user.role === 'admin' ? (
-                album.album.isPublished ? (
-                  <Button color='warning' variant="contained">Удалить</Button>
-                ) : <Button variant="contained">Опублиовать</Button>
-              ) : null
-            }
-          </CardContent>
-        </Link>
+            <Grid item>
+              {published}
+            </Grid>
+          </Grid>
+
+          {
+            user && user.role === 'admin' ? (
+              album.album.isPublished ? (
+                <Button disabled={loading} onClick={deleteAlbum} color='warning' variant="contained">
+                  {!loading ? 'Удалить' : <CircularProgress size={20}/>}
+                </Button>
+              ) : <Button variant="contained">Опублиовать</Button>
+            ) : null
+          }
+        </CardContent>
       </Card>
     </Grid>
   );
