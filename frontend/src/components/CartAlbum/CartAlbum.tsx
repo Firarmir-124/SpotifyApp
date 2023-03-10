@@ -9,16 +9,18 @@ import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import {useAppSelector} from "../../app/hooks";
 import {selectUser} from "../../store/userSlice";
-import {selectRemoveAlbumLoading} from "../../store/executorSlice";
+import {selectPublishedAlbum, selectRemoveAlbumLoading} from "../../store/executorSlice";
 
 interface Props {
   album: Albums;
   deleteAlbum: React.MouseEventHandler;
+  publishedAlbum: React.MouseEventHandler;
 }
 
-const CartAlbum:React.FC<Props> = ({album, deleteAlbum}) => {
+const CartAlbum:React.FC<Props> = ({album, deleteAlbum, publishedAlbum}) => {
   const user = useAppSelector(selectUser);
   const loading = useAppSelector(selectRemoveAlbumLoading);
+  const loadingPublished = useAppSelector(selectPublishedAlbum);
   let image = noImage;
   let published = <UnpublishedIcon style={{color: 'red'}}/>
 
@@ -66,7 +68,9 @@ const CartAlbum:React.FC<Props> = ({album, deleteAlbum}) => {
                 <Button disabled={loading} onClick={deleteAlbum} color='warning' variant="contained">
                   {!loading ? 'Удалить' : <CircularProgress size={20}/>}
                 </Button>
-              ) : <Button variant="contained">Опублиовать</Button>
+              ) : <Button onClick={publishedAlbum} disabled={loadingPublished} variant="contained">
+                {!loadingPublished ? 'Опубликовать' : <CircularProgress size={20}/>}
+              </Button>
             ) : null
           }
         </CardContent>

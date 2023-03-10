@@ -4,7 +4,12 @@ import {Alert, Chip, CircularProgress, Container, Grid, Paper} from "@mui/materi
 import {useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectAlbumLoading, selectAlbums, selectArtist, selectArtistLoading} from "../../store/executorSlice";
-import {fetchAlbums, fetchArtist, removeAlbum} from "../../store/executorThunk";
+import {
+  fetchAlbums,
+  fetchArtist,
+  isPublishedAlbum,
+  removeAlbum
+} from "../../store/executorThunk";
 import CartAlbum from "../../components/CartAlbum/CartAlbum";
 
 const Albums = () => {
@@ -17,6 +22,13 @@ const Albums = () => {
 
   const deleteAlbum = async (idItem: string) => {
     await dispatch(removeAlbum(idItem));
+    if (id) {
+      await dispatch(fetchAlbums(id));
+    }
+  };
+
+  const publishedAlbum = async (idItem: string, published: boolean) => {
+    await dispatch(isPublishedAlbum({id: idItem, published}));
     if (id) {
       await dispatch(fetchAlbums(id));
     }
@@ -52,7 +64,12 @@ const Albums = () => {
               !loadingAlbum ? (
                 albums.length !== 0 ? (
                   albums.map((album) => (
-                    <CartAlbum deleteAlbum={() => deleteAlbum(album._id)} key={album._id} album={album}/>
+                    <CartAlbum
+                      deleteAlbum={() => deleteAlbum(album._id)}
+                      key={album._id}
+                      album={album}
+                      publishedAlbum={() => publishedAlbum(album._id, true)}
+                    />
                   ))
                 ) : <Grid item ><Alert severity="info">У исполнителя нет альбомов !</Alert></Grid>
               ) : <Grid item><CircularProgress/></Grid>
