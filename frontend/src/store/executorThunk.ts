@@ -162,3 +162,29 @@ export const removeTrack = createAsyncThunk<void, string>(
     await axiosApi.delete('/tracks/' + id);
   }
 );
+
+interface isPublished {
+  id: string;
+  published: boolean;
+}
+
+export const isPublishedExecutor = createAsyncThunk<void, isPublished>(
+  'executor/isPublishedExecutor',
+  async (arg) => {
+    await axiosApi.patch('/artists/' + arg.id + '/togglePublished', {isPublished: arg.published});
+  }
+);
+
+export const isPublishedAlbum = createAsyncThunk<void, isPublished>(
+  'executor/isPublishedAlbum',
+  async (arg) => {
+    await axiosApi.patch('/albums/' + arg.id + '/togglePublished', {isPublished: arg.published});
+  }
+);
+
+export const isPublishedTrack = createAsyncThunk<void, isPublished>(
+  'executor/isPublishedTrack',
+  async (arg) => {
+    await axiosApi.patch('/tracks/' + arg.id + '/togglePublished', {isPublished: arg.published});
+  }
+);
