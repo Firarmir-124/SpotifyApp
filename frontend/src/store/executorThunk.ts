@@ -141,3 +141,10 @@ export const createTrack = createAsyncThunk<void, TrackMutation, {rejectValue: V
     }
   }
 );
+
+export const removeExecutor = createAsyncThunk<void, string>(
+  'executor/removeExecutor',
+  async (id) => {
+    await axiosApi.delete('/artists/' + id);
+  }
+);
