@@ -4,12 +4,17 @@ import {Alert, Chip, CircularProgress, Container, Grid, Paper} from "@mui/materi
 import CartExecutor from "../../components/CartExecutor/CartExecutor";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectExecutorLoading, selectExecutors} from "../../store/executorSlice";
-import {fetchExecutor} from "../../store/executorThunk";
+import {fetchExecutor, removeExecutor} from "../../store/executorThunk";
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const executors = useAppSelector(selectExecutors);
   const loading = useAppSelector(selectExecutorLoading);
+
+  const deleteArtist = async (id: string) => {
+    await dispatch(removeExecutor(id));
+    await dispatch(fetchExecutor());
+  };
 
   useEffect(() => {
     dispatch(fetchExecutor());
@@ -31,7 +36,7 @@ const Home = () => {
               !loading ? (
                 executors.length !== 0 ? (
                   executors.map((executor) => (
-                    <CartExecutor key={executor._id} executor={executor}/>
+                    <CartExecutor deleteArtist={() => deleteArtist(executor._id)} key={executor._id} executor={executor}/>
                   ))
                   ) : <Grid item ><Alert severity="info">Исполнителей нет !</Alert></Grid>
               ) : <Grid item> <CircularProgress/> </Grid>
