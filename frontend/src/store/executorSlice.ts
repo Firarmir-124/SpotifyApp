@@ -7,7 +7,7 @@ import {
   fetchAlbums,
   fetchArtist,
   fetchExecutor,
-  fetchTracks, removeExecutor
+  fetchTracks, removeAlbum, removeExecutor, removeTrack
 } from "./executorThunk";
 import {RootState} from "../app/store";
 
@@ -29,6 +29,8 @@ interface executorType {
   createTrackLoading: boolean;
   errorTrack: ValidationError | null;
   removeArtistLoading: boolean;
+  removeAlbumLoading: boolean;
+  removeTrackLoading: boolean;
 }
 
 const initialState:executorType = {
@@ -49,6 +51,8 @@ const initialState:executorType = {
   createTrackLoading: false,
   errorTrack: null,
   removeArtistLoading: false,
+  removeAlbumLoading: false,
+  removeTrackLoading: false,
 };
 
 export const executorSlice = createSlice({
@@ -153,6 +157,26 @@ export const executorSlice = createSlice({
     builder.addCase(removeExecutor.rejected, (state) => {
       state.removeArtistLoading = false;
     });
+
+    builder.addCase(removeAlbum.pending, (state) => {
+      state.removeAlbumLoading = true;
+    });
+    builder.addCase(removeAlbum.fulfilled, (state) => {
+      state.removeAlbumLoading = false;
+    });
+    builder.addCase(removeAlbum.rejected, (state) => {
+      state.removeAlbumLoading = false;
+    });
+
+    builder.addCase(removeTrack.pending, (state) => {
+      state.removeTrackLoading = true;
+    });
+    builder.addCase(removeTrack.fulfilled, (state) => {
+      state.removeTrackLoading = false;
+    });
+    builder.addCase(removeTrack.rejected, (state) => {
+      state.removeTrackLoading = false;
+    });
   }
 });
 
@@ -174,3 +198,5 @@ export const selectAlbumError = (state: RootState) => state.executor.errorAlbum;
 export const selectCreateTrackLoading = (state: RootState) => state.executor.createTrackLoading;
 export const selectTrackError = (state: RootState) => state.executor.errorTrack;
 export const selectRemoveArtistLoading = (state: RootState) => state.executor.removeArtistLoading;
+export const selectRemoveAlbumLoading = (state: RootState) => state.executor.removeAlbumLoading;
+export const selectRemoveTrackLoading = (state: RootState) => state.executor.removeTrackLoading;
