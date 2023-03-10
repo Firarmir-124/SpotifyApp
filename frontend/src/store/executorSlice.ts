@@ -7,7 +7,7 @@ import {
   fetchAlbums,
   fetchArtist,
   fetchExecutor,
-  fetchTracks
+  fetchTracks, removeExecutor
 } from "./executorThunk";
 import {RootState} from "../app/store";
 
@@ -28,6 +28,7 @@ interface executorType {
   errorAlbum: ValidationError | null;
   createTrackLoading: boolean;
   errorTrack: ValidationError | null;
+  removeArtistLoading: boolean;
 }
 
 const initialState:executorType = {
@@ -47,6 +48,7 @@ const initialState:executorType = {
   errorAlbum: null,
   createTrackLoading: false,
   errorTrack: null,
+  removeArtistLoading: false,
 };
 
 export const executorSlice = createSlice({
@@ -141,6 +143,16 @@ export const executorSlice = createSlice({
       state.createTrackLoading = false;
       state.errorTrack = error || null;
     });
+
+    builder.addCase(removeExecutor.pending, (state) => {
+      state.removeArtistLoading = true;
+    });
+    builder.addCase(removeExecutor.fulfilled, (state) => {
+      state.removeArtistLoading = false;
+    });
+    builder.addCase(removeExecutor.rejected, (state) => {
+      state.removeArtistLoading = false;
+    });
   }
 });
 
@@ -161,3 +173,4 @@ export const selectCreateAlbumLoading = (state: RootState) => state.executor.cre
 export const selectAlbumError = (state: RootState) => state.executor.errorAlbum;
 export const selectCreateTrackLoading = (state: RootState) => state.executor.createTrackLoading;
 export const selectTrackError = (state: RootState) => state.executor.errorTrack;
+export const selectRemoveArtistLoading = (state: RootState) => state.executor.removeArtistLoading;
