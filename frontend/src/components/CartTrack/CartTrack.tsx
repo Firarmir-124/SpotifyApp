@@ -19,7 +19,7 @@ const CartTrack:React.FC<Props> = ({track, trackHistory}) => {
   const navigate = useNavigate();
   let published = <UnpublishedIcon style={{color: 'red'}}/>
 
-  if (!track.isPublished) {
+  if (track.isPublished) {
     published = <PublishedWithChangesIcon color='primary'/>
   }
 

@@ -20,7 +20,7 @@ const CartAlbum:React.FC<Props> = ({album}) => {
     image = apiURl + '/' + album.album.image;
   }
 
-  if (!album.album.isPublished) {
+  if (album.album.isPublished) {
     published = <PublishedWithChangesIcon color='primary'/>
   }
 
