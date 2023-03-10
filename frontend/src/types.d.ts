@@ -16,7 +16,7 @@ export interface TrackMutation {
   album: string;
   duration: string;
   youtubeLink: string;
-  trackNumber: number;
+  trackNumber: string;
 }
 
 export interface Album extends AlbumMutation{
