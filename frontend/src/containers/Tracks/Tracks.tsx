@@ -10,7 +10,12 @@ import {
 import {useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectAlbum, selectAlbumOneLoading, selectTracks, selectTracksLoading} from "../../store/executorSlice";
-import {fetchAlbum, fetchTracks, trackHistoryPost} from "../../store/executorThunk";
+import {
+  fetchAlbum,
+  fetchTracks,
+  removeTrack,
+  trackHistoryPost
+} from "../../store/executorThunk";
 import CartTrack from "../../components/CartTrack/CartTrack";
 import {getVideoId} from "../../store/trackHistorySlice";
 import YouTubePlayer from "../YouTubePlayer/YouTubePlayer";
@@ -29,6 +34,13 @@ const Tracks = () => {
       await dispatch(fetchTracks(id));
     }
   }, [dispatch, id]);
+
+  const deleteTrack = async (idItem: string) => {
+    await dispatch(removeTrack(idItem));
+    if (id) {
+      await dispatch(fetchTracks(id));
+    }
+  };
 
   useEffect(() => {
     void getInformation();
@@ -57,7 +69,12 @@ const Tracks = () => {
             !loadingTrack ? (
               tracks.length !== 0 ? (
                 tracks.map((track) => (
-                  <CartTrack trackHistory={() => trackHistory(track._id, track.youtubeLink)} key={track._id} track={track}/>
+                  <CartTrack
+                    deleteTrack={() => deleteTrack(track._id)}
+                    trackHistory={() => trackHistory(track._id, track.youtubeLink)}
+                    key={track._id}
+                    track={track}
+                  />
                 ))
               ) : <Alert severity="info">У альбома нет песен !</Alert>
             ) : <CircularProgress/>

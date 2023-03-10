@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Button, Card, CardContent, CardMedia, Chip, IconButton, Typography} from "@mui/material";
+import {Box, Button, Card, CardContent, CardMedia, Chip, CircularProgress, IconButton, Typography} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import {Tracks} from "../../types";
 import music from '../../assets/images/music.png';
@@ -8,14 +8,17 @@ import {selectUser} from "../../store/userSlice";
 import {useNavigate} from "react-router-dom";
 import UnpublishedIcon from "@mui/icons-material/Unpublished";
 import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
+import {selectRemoveTrackLoading} from "../../store/executorSlice";
 
 interface Props {
   track: Tracks;
   trackHistory: React.MouseEventHandler;
+  deleteTrack: React.MouseEventHandler;
 }
 
-const CartTrack:React.FC<Props> = ({track, trackHistory}) => {
+const CartTrack:React.FC<Props> = ({track, trackHistory, deleteTrack}) => {
   const user = useAppSelector(selectUser);
+  const loading = useAppSelector(selectRemoveTrackLoading);
   const navigate = useNavigate();
   let published = <UnpublishedIcon style={{color: 'red'}}/>
 
@@ -45,7 +48,9 @@ const CartTrack:React.FC<Props> = ({track, trackHistory}) => {
       {
         user && user.role === 'admin' ? (
           track.isPublished ? (
-            <Button color='warning' variant="contained">Удалить</Button>
+            <Button onClick={deleteTrack} disabled={loading} color='warning' variant="contained">
+              {!loading ? 'Удалить' : <CircularProgress size={20}/>}
+            </Button>
           ) : <Button variant="contained">Опублиовать</Button>
         ) : null
       }
