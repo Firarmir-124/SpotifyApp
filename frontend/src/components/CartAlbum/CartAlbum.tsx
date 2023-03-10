@@ -9,7 +9,7 @@ import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import {useAppSelector} from "../../app/hooks";
 import {selectUser} from "../../store/userSlice";
-import {selectPublishedAlbum, selectRemoveAlbumLoading} from "../../store/executorSlice";
+import {selectPublishedAlbum, selectRemoveAlbumLoading} from "../../store/controlExecutorSlice";
 
 interface Props {
   album: Albums;

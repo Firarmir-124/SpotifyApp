@@ -5,12 +5,8 @@ import {Link} from "react-router-dom";
 import {linksStyle} from "../Layout/Layout";
 import {AlbumMutation} from "../../types";
 import {useAppSelector} from "../../app/hooks";
-import {
-  selectAlbumError,
-  selectCreateAlbumLoading,
-  selectExecutorLoading,
-  selectExecutors
-} from "../../store/executorSlice";
+import {selectAlbumError, selectCreateAlbumLoading} from "../../store/controlExecutorSlice";
+import {selectExecutorLoading, selectExecutors} from "../../store/executorSlice";
 
 interface Props {
   onSubmit: (album: AlbumMutation) => void;

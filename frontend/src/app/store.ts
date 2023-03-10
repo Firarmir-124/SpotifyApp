@@ -5,6 +5,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from "redux-persist/es/constants";
 import {trackHistoryReducer} from "../store/trackHistorySlice";
+import {controlExecutorReducer} from "../store/controlExecutorSlice";
 
 const userPersistConfig = {
   key: 'spotify:users',
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   executor: executorReducer,
   users: persistReducer(userPersistConfig, userReducer),
   trackHistory: trackHistoryReducer,
+  controlExecutor: controlExecutorReducer,
 });
 
 export const store = configureStore({

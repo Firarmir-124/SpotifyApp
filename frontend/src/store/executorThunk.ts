@@ -81,7 +81,7 @@ export const trackHistoryGet = createAsyncThunk<TracksHistory[]>(
 );
 
 export const createExecutor = createAsyncThunk<void, ArtistMutation, {rejectValue: ValidationError}>(
-  'executor/create',
+  'controlExecutor/create',
   async (artistMutation, {rejectWithValue}) => {
     const formDate = new FormData();
     const keys = Object.keys(artistMutation) as (keyof ArtistMutation)[];
@@ -106,7 +106,7 @@ export const createExecutor = createAsyncThunk<void, ArtistMutation, {rejectValu
 );
 
 export const createAlbum = createAsyncThunk<void, AlbumMutation, {rejectValue: ValidationError}>(
-  'executor/createAlbum',
+  'controlExecutor/createAlbum',
   async (albumMutation, {rejectWithValue}) => {
     const formDate = new FormData();
     const keys = Object.keys(albumMutation) as (keyof AlbumMutation)[];
@@ -130,7 +130,7 @@ export const createAlbum = createAsyncThunk<void, AlbumMutation, {rejectValue: V
 );
 
 export const createTrack = createAsyncThunk<void, TrackMutation, {rejectValue: ValidationError}>(
-  'executor/createTrack',
+  'controlExecutor/createTrack',
   async (trackMutation, {rejectWithValue}) => {
     try {
       await axiosApi.post('/tracks', trackMutation);
@@ -143,21 +143,21 @@ export const createTrack = createAsyncThunk<void, TrackMutation, {rejectValue: V
 );
 
 export const removeExecutor = createAsyncThunk<void, string>(
-  'executor/removeExecutor',
+  'controlExecutor/removeExecutor',
   async (id) => {
     await axiosApi.delete('/artists/' + id);
   }
 );
 
 export const removeAlbum = createAsyncThunk<void, string>(
-  'executor/removeAlbum',
+  'controlExecutor/removeAlbum',
   async (id) => {
     await axiosApi.delete('/albums/' + id);
   }
 );
 
 export const removeTrack = createAsyncThunk<void, string>(
-  'executor/removeTrack',
+  'controlExecutor/removeTrack',
   async (id) => {
     await axiosApi.delete('/tracks/' + id);
   }
@@ -169,21 +169,21 @@ interface isPublished {
 }
 
 export const isPublishedExecutor = createAsyncThunk<void, isPublished>(
-  'executor/isPublishedExecutor',
+  'controlExecutor/isPublishedExecutor',
   async (arg) => {
     await axiosApi.patch('/artists/' + arg.id + '/togglePublished', {isPublished: arg.published});
   }
 );
 
 export const isPublishedAlbum = createAsyncThunk<void, isPublished>(
-  'executor/isPublishedAlbum',
+  'controlExecutor/isPublishedAlbum',
   async (arg) => {
     await axiosApi.patch('/albums/' + arg.id + '/togglePublished', {isPublished: arg.published});
   }
 );
 
 export const isPublishedTrack = createAsyncThunk<void, isPublished>(
-  'executor/isPublishedTrack',
+  'controlExecutor/isPublishedTrack',
   async (arg) => {
     await axiosApi.patch('/tracks/' + arg.id + '/togglePublished', {isPublished: arg.published});
   }

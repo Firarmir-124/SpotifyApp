@@ -8,7 +8,7 @@ import {selectUser} from "../../store/userSlice";
 import {useNavigate} from "react-router-dom";
 import UnpublishedIcon from "@mui/icons-material/Unpublished";
 import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
-import {selectPublishedTrack, selectRemoveTrackLoading} from "../../store/executorSlice";
+import {selectPublishedTrack, selectRemoveTrackLoading} from "../../store/controlExecutorSlice";
 
 interface Props {
   track: Tracks;

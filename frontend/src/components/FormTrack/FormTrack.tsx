@@ -2,16 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {Alert, Box, Button, CircularProgress, Grid, InputAdornment, MenuItem, Paper, TextField} from "@mui/material";
 import {TrackMutation} from "../../types";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {
-  selectAlbumLoading,
-  selectAlbums,
-  selectArtistLoading,
-  selectCreateTrackLoading,
-  selectExecutors, selectTrackError
-} from "../../store/executorSlice";
 import {fetchAlbums} from "../../store/executorThunk";
 import {Link} from "react-router-dom";
 import {linksStyle} from "../Layout/Layout";
+import {selectAlbumLoading, selectAlbums, selectArtistLoading, selectExecutors} from "../../store/executorSlice";
+import {selectCreateTrackLoading, selectTrackError} from "../../store/controlExecutorSlice";
 
 interface Props {
   onSubmit: (track: TrackMutation) => void;

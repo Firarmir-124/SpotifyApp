@@ -5,7 +5,7 @@ import {linksStyle} from "../Layout/Layout";
 import {ArtistMutation} from "../../types";
 import FileInput from "../FileInput/FileInput";
 import {useAppSelector} from "../../app/hooks";
-import {selectArtistError, selectCreateArtistLoading} from "../../store/executorSlice";
+import {selectArtistError, selectCreateArtistLoading} from "../../store/controlExecutorSlice";
 
 interface Props {
   onSubmit: (artist: ArtistMutation) => void;
