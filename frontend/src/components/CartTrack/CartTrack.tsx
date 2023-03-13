@@ -49,13 +49,19 @@ const CartTrack:React.FC<Props> = ({track, trackHistory, deleteTrack, publishedT
       </Box>
       {
         user && user.role === 'admin' ? (
-          track.isPublished ? (
-            <Button onClick={deleteTrack} disabled={loading} color='warning' variant="contained">
+          <>
+            <Button sx={{mr: 2}} disabled={loading} onClick={deleteTrack} color='warning' variant="contained">
               {!loading ? 'Удалить' : <CircularProgress size={20}/>}
             </Button>
-          ) : <Button onClick={publishedTrack} disabled={loadingPublished} variant="contained">
-            {!loadingPublished ? 'Опубликовать' : <CircularProgress size={20}/>}
-          </Button>
+
+            {
+              !track.isPublished && (
+                <Button disabled={loadingPublished} onClick={publishedTrack} color='primary' variant="contained">
+                  {!loadingPublished ? 'Опубликовать' : <CircularProgress size={20}/>}
+                </Button>
+              )
+            }
+          </>
         ) : user && user.role === 'user' ? (
           !track.isPublished ? (
             <Button onClick={deleteTrack} disabled={loading} color='warning' variant="contained">

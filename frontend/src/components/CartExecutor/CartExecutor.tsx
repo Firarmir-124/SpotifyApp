@@ -59,13 +59,19 @@ const CartExecutor:React.FC<Props> = ({executor, deleteArtist, isPublishedArtist
             </Grid>
             {
               user && user.role === 'admin' ? (
-                executor.isPublished ? (
-                  <Button disabled={loading} onClick={deleteArtist} color='warning' variant="contained">
+                <>
+                  <Button sx={{mr: 2}} disabled={loading} onClick={deleteArtist} color='warning' variant="contained">
                     {!loading ? 'Удалить' : <CircularProgress size={20}/>}
                   </Button>
-                ) : <Button onClick={isPublishedArtist} disabled={loadingPublished} variant="contained">
-                    {!loadingPublished ? 'Опубликовать' : <CircularProgress size={20}/>}
-                  </Button>
+
+                  {
+                    !executor.isPublished && (
+                      <Button disabled={loadingPublished} onClick={isPublishedArtist} color='primary' variant="contained">
+                        {!loadingPublished ? 'Опубликовать' : <CircularProgress size={20}/>}
+                      </Button>
+                    )
+                  }
+                </>
               ) : user && user.role === 'user' ? (
                 !executor.isPublished ? (
                   <Button disabled={loading} onClick={deleteArtist} color='warning' variant="contained">
