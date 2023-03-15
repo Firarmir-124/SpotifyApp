@@ -17,6 +17,7 @@ import Layout from "../../components/Layout/Layout";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectRegisterError, selectRegisterLoading} from "../../store/userSlice";
 import {register} from "../../store/userThunk";
+import FileInput from "../../components/FileInput/FileInput";
 
 const Register = () => {
   const dispatch = useAppDispatch();
@@ -27,12 +28,19 @@ const Register = () => {
   const [state, setState] = useState<RegisterMutation>({
     username: '',
     password: '',
+    displayName: '',
+    avatar: null,
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target;
 
     setState(prevState => ({...prevState, [name]: value}));
+  };
+
+  const fileChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {name, files} = event.target;
+    setState(prev => ({...prev, [name]: files && files[0] ? files[0] : null}))
   };
 
   const submitFormHandler = async (e: React.FormEvent) => {
@@ -42,7 +50,7 @@ const Register = () => {
       await dispatch(register(state)).unwrap();
       navigate('/');
     }catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
 
@@ -63,7 +71,7 @@ const Register = () => {
               marginTop: 8,
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
+              alignItems: 'center'
             }}
           >
             <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
@@ -72,7 +80,7 @@ const Register = () => {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <Box component="form" noValidate onSubmit={submitFormHandler} sx={{mt: 3}}>
+            <Box component="form" noValidate onSubmit={submitFormHandler} sx={{mt: 3, width: '520px'}}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
@@ -84,6 +92,25 @@ const Register = () => {
                     onChange={inputChangeHandler}
                     error={Boolean(getFieldError('username'))}
                     helperText={getFieldError('username')}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="DisplayName"
+                    name="displayName"
+                    autoComplete="new-username"
+                    fullWidth
+                    value={state.displayName}
+                    onChange={inputChangeHandler}
+                    error={Boolean(getFieldError('displayName'))}
+                    helperText={getFieldError('displayName')}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FileInput
+                    onChange={fileChangeHandler}
+                    name='avatar'
+                    label='Avatar'
                   />
                 </Grid>
                 <Grid item xs={12}>
