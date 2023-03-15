@@ -18,6 +18,7 @@ import Layout from "../../components/Layout/Layout";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectLoginError, selectLoginLoading} from "../../store/userSlice";
 import {login} from "../../store/userThunk";
+import {GoogleLogin} from "@react-oauth/google";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -73,6 +74,16 @@ const Login = () => {
           )}
 
           <Box component="form" onSubmit={submitFormHandler} sx={{mt: 3}}>
+            <Box sx={{ pb: 2 }}>
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  console.log(credentialResponse)
+                }}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+            </Box>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField

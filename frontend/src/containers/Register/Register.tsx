@@ -18,6 +18,7 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectRegisterError, selectRegisterLoading} from "../../store/userSlice";
 import {register} from "../../store/userThunk";
 import FileInput from "../../components/FileInput/FileInput";
+import {GoogleLogin} from "@react-oauth/google";
 
 const Register = () => {
   const dispatch = useAppDispatch();
@@ -81,6 +82,16 @@ const Register = () => {
               Sign up
             </Typography>
             <Box component="form" noValidate onSubmit={submitFormHandler} sx={{mt: 3, width: '520px'}}>
+              <Box sx={{ pb: 2 }}>
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    console.log(credentialResponse)
+                  }}
+                  onError={() => {
+                    console.log('Login Failed');
+                  }}
+                />
+              </Box>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
