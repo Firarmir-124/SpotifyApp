@@ -33,7 +33,7 @@ export interface IUser {
   role: string;
   token: string;
   displayName: string;
-  googleID?: string;
+  googleId?: string;
   avatar: string | null;
 }
 
