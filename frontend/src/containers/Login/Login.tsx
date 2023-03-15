@@ -17,7 +17,7 @@ import {LoginMutation} from "../../types";
 import Layout from "../../components/Layout/Layout";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectLoginError, selectLoginLoading} from "../../store/userSlice";
-import {login} from "../../store/userThunk";
+import {googleLogin, login} from "../../store/userThunk";
 import {GoogleLogin} from "@react-oauth/google";
 
 const Login = () => {
@@ -49,6 +49,11 @@ const Login = () => {
     }
   };
 
+  const googleLoginHandler = async (credential: string) => {
+    await dispatch(googleLogin(credential)).unwrap();
+    navigate('/');
+  };
+
   return (
     <Layout>
       <Container>
@@ -77,7 +82,9 @@ const Login = () => {
             <Box sx={{ pb: 2 }}>
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
-                  console.log(credentialResponse)
+                  if (credentialResponse.credential) {
+                    void googleLoginHandler(credentialResponse.credential);
+                  }
                 }}
                 onError={() => {
                   console.log('Login Failed');

@@ -16,7 +16,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Layout from "../../components/Layout/Layout";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectRegisterError, selectRegisterLoading} from "../../store/userSlice";
-import {register} from "../../store/userThunk";
+import {googleLogin, register} from "../../store/userThunk";
 import FileInput from "../../components/FileInput/FileInput";
 import {GoogleLogin} from "@react-oauth/google";
 
@@ -55,6 +55,11 @@ const Register = () => {
     }
   };
 
+  const googleLoginHandler = async (credential: string) => {
+    await dispatch(googleLogin(credential)).unwrap();
+    navigate('/');
+  };
+
   const getFieldError = (fieldName: string) => {
     try {
       return error?.errors[fieldName].message;
@@ -85,7 +90,9 @@ const Register = () => {
               <Box sx={{ pb: 2 }}>
                 <GoogleLogin
                   onSuccess={(credentialResponse) => {
-                    console.log(credentialResponse)
+                    if (credentialResponse.credential) {
+                      void googleLoginHandler(credentialResponse.credential);
+                    }
                   }}
                   onError={() => {
                     console.log('Login Failed');
