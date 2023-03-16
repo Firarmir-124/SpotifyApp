@@ -20,6 +20,7 @@ import {selectLoginError, selectLoginLoading} from "../../store/userSlice";
 import {googleLogin, login, metaLogin} from "../../store/userThunk";
 import {GoogleLogin} from "@react-oauth/google";
 import FacebookLogin, {ProfileSuccessResponse} from "@greatsumini/react-facebook-login";
+import {META_CLIENT_ID} from "../../constans";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -142,7 +143,7 @@ const Login = () => {
 
                 <Grid item>
                   <FacebookLogin
-                    appId="1346167532621265"
+                    appId={META_CLIENT_ID}
                     onProfileSuccess={(response) => {
                       void metaLoginHandler(response);
                     }}

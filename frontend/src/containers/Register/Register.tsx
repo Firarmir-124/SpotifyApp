@@ -16,10 +16,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Layout from "../../components/Layout/Layout";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectRegisterError, selectRegisterLoading} from "../../store/userSlice";
-import {googleLogin, register} from "../../store/userThunk";
+import {googleLogin, metaLogin, register} from "../../store/userThunk";
 import FileInput from "../../components/FileInput/FileInput";
 import {GoogleLogin} from "@react-oauth/google";
-import FacebookLogin from "@greatsumini/react-facebook-login";
+import FacebookLogin, {ProfileSuccessResponse} from "@greatsumini/react-facebook-login";
+import {META_CLIENT_ID} from "../../constans";
 
 const Register = () => {
   const dispatch = useAppDispatch();
@@ -58,6 +59,11 @@ const Register = () => {
 
   const googleLoginHandler = async (credential: string) => {
     await dispatch(googleLogin(credential)).unwrap();
+    navigate('/');
+  };
+
+  const metaLoginHandler = async (profileSuccessResponse: ProfileSuccessResponse) => {
+    await dispatch(metaLogin(profileSuccessResponse)).unwrap();
     navigate('/');
   };
 
@@ -169,7 +175,10 @@ const Register = () => {
 
                   <Grid item>
                     <FacebookLogin
-                      appId="1346167532621265"
+                      appId={META_CLIENT_ID}
+                      onProfileSuccess={(response) => {
+                        void metaLoginHandler(response);
+                      }}
                       style={{
                         backgroundColor: '#4267b2',
                         color: '#fff',
