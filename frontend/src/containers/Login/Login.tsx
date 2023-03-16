@@ -8,7 +8,7 @@ import {
   CircularProgress,
   Container,
   Grid,
-  Link,
+  Link, Paper,
   TextField,
   Typography
 } from '@mui/material';
@@ -19,6 +19,7 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectLoginError, selectLoginLoading} from "../../store/userSlice";
 import {googleLogin, login} from "../../store/userThunk";
 import {GoogleLogin} from "@react-oauth/google";
+import FacebookLogin from "@greatsumini/react-facebook-login";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -78,19 +79,7 @@ const Login = () => {
             </Alert>
           )}
 
-          <Box component="form" onSubmit={submitFormHandler} sx={{mt: 3}}>
-            <Box sx={{ pb: 2 }}>
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  if (credentialResponse.credential) {
-                    void googleLoginHandler(credentialResponse.credential);
-                  }
-                }}
-                onError={() => {
-                  console.log('Login Failed');
-                }}
-              />
-            </Box>
+          <Box component="form" onSubmit={submitFormHandler} sx={{mt: 3, width: '500px'}}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -130,6 +119,37 @@ const Login = () => {
                 </Link>
               </Grid>
             </Grid>
+
+            <Paper sx={{mt: 1}} elevation={3}>
+              <Grid p='5px' justifyContent='space-between' container>
+                <Grid item>
+                  <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      if (credentialResponse.credential) {
+                        void googleLoginHandler(credentialResponse.credential);
+                      }
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                  />
+                </Grid>
+
+                <Grid item>
+                  <FacebookLogin
+                    appId="1346167532621265"
+                    style={{
+                      backgroundColor: '#4267b2',
+                      color: '#fff',
+                      fontSize: '16px',
+                      padding: '12px 24px',
+                      border: 'none',
+                      borderRadius: '4px',
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
           </Box>
         </Box>
       </Container>
