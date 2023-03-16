@@ -28,7 +28,7 @@ const UserMenu:React.FC<Props> = ({user}) => {
   };
 
   if (user.avatar) {
-    noImage = <Avatar alt="Natacha" src={apiURl + '/' + user.avatar} />
+    noImage = <Avatar alt="Natacha" src={user.avatar.length > 48 ? user.avatar : apiURl + '/' + user.avatar} />
   }
 
   return (
