@@ -34,6 +34,7 @@ export interface IUser {
   token: string;
   displayName: string;
   googleId?: string;
+  metaId?: string;
   avatar: string | null;
 }
 
