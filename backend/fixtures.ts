@@ -24,12 +24,14 @@ const run = async () => {
   const [user1, user2] = await User.create(
     {
       username: 'dima',
+      displayName: 'FarmGO',
       password: '123',
       token: crypto.randomUUID(),
       role: 'user'
     },
     {
       username: 'roma',
+      displayName: 'grand_rider',
       password: '123',
       token: crypto.randomUUID(),
       role: 'admin'
