@@ -101,8 +101,8 @@ usersRouter.post('/meta', async (req, res, next) => {
   try {
     const ticket = {
       email: req.body.email,
-      name: req.body.email,
-      picture: req.body.picture,
+      name: req.body.name,
+      picture: req.body.picture.data.url,
       id: req.body.id,
     };
 
