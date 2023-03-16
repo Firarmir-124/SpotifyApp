@@ -97,6 +97,39 @@ usersRouter.post('/google', async (req, res, next) => {
   }
 });
 
+usersRouter.post('/meta', async (req, res, next) => {
+  try {
+    const ticket = {
+      email: req.body.email,
+      name: req.body.email,
+      picture: req.body.picture,
+      id: req.body.id,
+    };
+
+    if (!ticket) {
+      return res.status(400).send({error: "Not enough user data"});
+    }
+
+    let user = await User.findOne({metaId: ticket.id});
+
+    if (!user) {
+      user = new User({
+        username: ticket.email,
+        displayName: ticket.name,
+        password: crypto.randomUUID(),
+        metaId: ticket.id,
+        avatar: ticket.picture,
+      });
+    }
+
+    user.generateToken();
+    await user.save();
+    return res.send({message: 'login with meta successful!', user});
+  } catch (e) {
+    return next(e);
+  }
+});
+
 usersRouter.delete('/sessions', async (req, res, next) => {
   try {
     const token = req.get('Authorization');
