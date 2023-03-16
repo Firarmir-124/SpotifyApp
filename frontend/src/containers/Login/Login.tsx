@@ -17,9 +17,9 @@ import {LoginMutation} from "../../types";
 import Layout from "../../components/Layout/Layout";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectLoginError, selectLoginLoading} from "../../store/userSlice";
-import {googleLogin, login} from "../../store/userThunk";
+import {googleLogin, login, metaLogin} from "../../store/userThunk";
 import {GoogleLogin} from "@react-oauth/google";
-import FacebookLogin from "@greatsumini/react-facebook-login";
+import FacebookLogin, {ProfileSuccessResponse} from "@greatsumini/react-facebook-login";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -52,6 +52,11 @@ const Login = () => {
 
   const googleLoginHandler = async (credential: string) => {
     await dispatch(googleLogin(credential)).unwrap();
+    navigate('/');
+  };
+
+  const metaLoginHandler = async (profileSuccessResponse: ProfileSuccessResponse) => {
+    await dispatch(metaLogin(profileSuccessResponse)).unwrap();
     navigate('/');
   };
 
@@ -138,6 +143,9 @@ const Login = () => {
                 <Grid item>
                   <FacebookLogin
                     appId="1346167532621265"
+                    onProfileSuccess={(response) => {
+                      void metaLoginHandler(response);
+                    }}
                     style={{
                       backgroundColor: '#4267b2',
                       color: '#fff',
