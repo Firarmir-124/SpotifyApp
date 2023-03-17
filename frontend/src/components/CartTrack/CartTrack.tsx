@@ -75,7 +75,7 @@ const CartTrack:React.FC<Props> = ({track, trackHistory, deleteTrack, publishedT
           {track.title}
         </Typography>
         <Typography variant="subtitle1" color="text.secondary" component="div">
-          {track.duration}
+          {track.duration.replace(/(\d)([а-я]+)/gi, "$1 $2")}
         </Typography>
       </CardContent>
       <CardMedia

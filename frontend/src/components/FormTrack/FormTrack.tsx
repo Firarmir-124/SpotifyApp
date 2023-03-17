@@ -1,5 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Box, Button, CircularProgress, Grid, InputAdornment, MenuItem, Paper, TextField} from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  InputAdornment,
+  MenuItem,
+  Paper,
+  TextField,
+} from "@mui/material";
 import {TrackMutation} from "../../types";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {fetchAlbums} from "../../store/executorThunk";
@@ -7,6 +17,7 @@ import {Link} from "react-router-dom";
 import {linksStyle} from "../Layout/Layout";
 import {selectAlbumLoading, selectAlbums, selectArtistLoading, selectExecutors} from "../../store/executorSlice";
 import {selectCreateTrackLoading, selectTrackError} from "../../store/controlExecutorSlice";
+import ReactInputMask from 'react-input-mask';
 
 interface Props {
   onSubmit: (track: TrackMutation) => void;
@@ -119,18 +130,23 @@ const FormTrack:React.FC<Props> = ({onSubmit}) => {
             </TextField>
           </Grid>
           <Grid xs={12} item>
-            <TextField
-              required
-              label="Продолжительность трека..."
-              id="outlined-start-adornment"
-              sx={{width: '25ch' }}
-              type='text'
-              name='duration'
+            <ReactInputMask
+              mask="9 мин 99 сек"
               value={name.duration}
               onChange={onChangeTrack}
-              error={Boolean(getFieldError('duration'))}
-              helperText={getFieldError('duration')}
-            />
+            >
+              <TextField
+                required
+                label="Продолжительность трека..."
+                id="outlined-start-adornment"
+                sx={{width: '25ch' }}
+                name='duration'
+                value={name.duration}
+                onChange={onChangeTrack}
+                error={Boolean(getFieldError('duration'))}
+                helperText={getFieldError('duration')}>
+              </TextField>
+            </ReactInputMask>
           </Grid>
           <Grid xs={12} item>
             <TextField
