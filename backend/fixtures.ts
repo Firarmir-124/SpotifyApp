@@ -56,7 +56,7 @@ const run = async () => {
       photo: 'fixtures/imagesArtist/artist2.jpg',
       information: 'Джахид Афраил оглы Гусейнли известный как JONY — певец и автор песен. Победитель второго сезона шоу «Маска» на НТВ',
       user: user1._id,
-      isPublished: false,
+      isPublished: true,
     }
   );
 
@@ -99,7 +99,7 @@ const run = async () => {
       date: 2020,
       image: 'fixtures/imagesAlbums/album4.jpg',
       user: user1._id,
-      isPublished: false,
+      isPublished: true,
     }
   );
 
@@ -272,7 +272,7 @@ const run = async () => {
       youtubeLink: "Sh8Qz0JtVuY",
       trackNumber: 3,
       user: user2._id,
-      isPublished: false,
+      isPublished: true,
     },
     {
       title: 'Ты пари_V2',
@@ -281,7 +281,7 @@ const run = async () => {
       youtubeLink: "pRp5RYkVyas",
       trackNumber: 4,
       user: user1._id,
-      isPublished: false,
+      isPublished: true,
     },
     {
       title: 'Никак_V2',
@@ -290,7 +290,7 @@ const run = async () => {
       youtubeLink: "Lg2BJu8NHOU",
       trackNumber: 5,
       user: user2._id,
-      isPublished: false,
+      isPublished: true,
     },
   );
 
