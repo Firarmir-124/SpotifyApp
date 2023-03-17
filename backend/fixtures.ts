@@ -107,7 +107,7 @@ const run = async () => {
     {
       title: 'Я жду',
       album: album1._id,
-      duration: '5 минут 2 секунды',
+      duration: '5 мин 2 сек',
       youtubeLink: "F1j6BBdWJqc",
       trackNumber: 1,
       user: user1._id,
@@ -115,7 +115,7 @@ const run = async () => {
     {
       title: 'История любви',
       album: album1._id,
-      duration: '3 минут 57 секунды',
+      duration: '3 мин 57 сек',
       youtubeLink: "AKOTCO8CujY",
       trackNumber: 2,
       user: user1._id,
@@ -123,7 +123,7 @@ const run = async () => {
     {
       title: 'Love Story (Club Mix)',
       album: album1._id,
-      duration: '5 минут 2 секунды',
+      duration: '5 мин 2 сек',
       youtubeLink: "CGDHP7yhsm4",
       trackNumber: 3,
       user: user1._id,
@@ -131,7 +131,7 @@ const run = async () => {
     {
       title: 'Он тебя целует',
       album: album1._id,
-      duration: '3 минут 32 секунды',
+      duration: '3 мин 32 сек',
       youtubeLink: "phxQFEH51SE",
       trackNumber: 4,
       user: user1._id,
@@ -139,7 +139,7 @@ const run = async () => {
     {
       title: 'Здравствуй',
         album: album1._id,
-      duration: '4 минут 55 секунды',
+      duration: '4 мин 55 сек',
       youtubeLink: "h7CQC5lmppc",
       trackNumber: 5,
       user: user1._id,
@@ -147,7 +147,7 @@ const run = async () => {
     {
       title: 'Малыш',
       album: album2._id,
-      duration: '3 минут 50 секунды',
+      duration: '3 мин 50 сек',
       youtubeLink: "MuWQZyXrvaA",
       trackNumber: 1,
       user: user1._id,
@@ -155,7 +155,7 @@ const run = async () => {
     {
       title: 'Последний поцелуй',
       album: album2._id,
-      duration: '3 минут 53 секунды',
+      duration: '3 мин 53 сек',
       youtubeLink: "2gBvOiOxCOg",
       trackNumber: 2,
       user: user1._id,
@@ -163,7 +163,7 @@ const run = async () => {
     {
       title: 'Бандито',
       album: album2._id,
-      duration: '2 минут 33 секунды',
+      duration: '2 мин 33 сек',
       youtubeLink: "pEM5o5kR1ms",
       trackNumber: 3,
       user: user1._id,
@@ -171,7 +171,7 @@ const run = async () => {
     {
       title: 'По кайфу',
       album: album2._id,
-      duration: '3 минут 17 секунды',
+      duration: '3 мин 17 сек',
       youtubeLink: "DVyacTfUo7E",
       trackNumber: 4,
       user: user1._id,
@@ -179,7 +179,7 @@ const run = async () => {
     {
       title: '1, 2, 3, 4, 5 (Gin Mix)',
       album: album2._id,
-      duration: '5 минут 40 секунды',
+      duration: '5 мин 40 сек',
       youtubeLink: "Uw0nID45Hbw",
       trackNumber: 5,
       user: user1._id,
@@ -187,7 +187,7 @@ const run = async () => {
     {
       title: 'Лали',
       album: album3._id,
-      duration: '2 минут 28 секунды',
+      duration: '2 мин 28 сек',
       youtubeLink: "SucUYI6Vnj0",
       trackNumber: 1,
       user: user2._id,
@@ -195,7 +195,7 @@ const run = async () => {
     {
       title: 'Love Your Voice',
       album: album3._id,
-      duration: '2 минут 30 секунды',
+      duration: '2 мин 30 сек',
       youtubeLink: "https://youtu.be/m9ezpAUvMC8",
       trackNumber: 2,
       user: user2._id,
@@ -203,7 +203,7 @@ const run = async () => {
     {
       title: 'Комета',
       album: album3._id,
-      duration: '2 минут 39 секунды',
+      duration: '2 мин 39 сек',
       youtubeLink: "yM1QjdoLmxQ",
       trackNumber: 3,
       user: user2._id,
@@ -211,7 +211,7 @@ const run = async () => {
     {
       title: 'Титры',
       album: album3._id,
-      duration: '3 минут 22 секунды',
+      duration: '3 мин 22 сек',
       youtubeLink: "9Jr2dCEMxis",
       trackNumber: 4,
       user: user2._id,
@@ -219,7 +219,7 @@ const run = async () => {
     {
       title: 'Босс',
       album: album3._id,
-      duration: '3 минут 14 секунды',
+      duration: '3 мин 14 сек',
       youtubeLink: "pJBgdXUwp28",
       trackNumber: 5,
       user: user2._id,
@@ -227,7 +227,7 @@ const run = async () => {
     {
       title: 'Аллея',
       album: album4._id,
-      duration: '2 минут 25 секунды',
+      duration: '2 мин 25 сек',
       youtubeLink: "5R6BYT176Bk",
       trackNumber: 1,
       user: user2._id,
@@ -235,7 +235,7 @@ const run = async () => {
     {
       title: 'Без тебя я не я',
       album: album4._id,
-      duration: '3 минут 20 секунды',
+      duration: '3 мин 20 сек',
       youtubeLink: "xtDQF0J6NjY",
       trackNumber: 2,
       user: user2._id,
@@ -243,7 +243,7 @@ const run = async () => {
     {
       title: 'Наверно, ты меня не помнишь',
       album: album4._id,
-      duration: '3 минут 07 секунды',
+      duration: '3 мин 07 сек',
       youtubeLink: "Sh8Qz0JtVuY",
       trackNumber: 3,
       user: user2._id,
@@ -251,7 +251,7 @@ const run = async () => {
     {
       title: 'Ты пари',
       album: album4._id,
-      duration: '3 минут 55 секунды',
+      duration: '3 мин 55 сек',
       youtubeLink: "pRp5RYkVyas",
       trackNumber: 4,
       user: user2._id,
@@ -259,7 +259,7 @@ const run = async () => {
     {
       title: 'Никак',
       album: album4._id,
-      duration: '4 минут 23 секунды',
+      duration: '4 мин 23 сек',
       youtubeLink: "Lg2BJu8NHOU",
       trackNumber: 5,
       user: user2._id,
@@ -268,7 +268,7 @@ const run = async () => {
     {
       title: 'Наверно, ты меня не помнишь_V2',
       album: album5._id,
-      duration: '3 минут 07 секунды',
+      duration: '3 мин 07 сек',
       youtubeLink: "Sh8Qz0JtVuY",
       trackNumber: 3,
       user: user2._id,
@@ -277,7 +277,7 @@ const run = async () => {
     {
       title: 'Ты пари_V2',
       album: album5._id,
-      duration: '3 минут 55 секунды',
+      duration: '3 мин 55 сек',
       youtubeLink: "pRp5RYkVyas",
       trackNumber: 4,
       user: user1._id,
@@ -286,7 +286,7 @@ const run = async () => {
     {
       title: 'Никак_V2',
       album: album5._id,
-      duration: '4 минут 23 секунды',
+      duration: '4 мин 23 сек',
       youtubeLink: "Lg2BJu8NHOU",
       trackNumber: 5,
       user: user2._id,
